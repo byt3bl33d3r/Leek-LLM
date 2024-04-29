@@ -1,0 +1,2277 @@
+<StandardFunctionsDoc>
+   <StandardFunctions>
+      <name>arraySome</name>
+      <description>Returns **true** if the predicate **callback** applied to at least one of the elements of the list returns **true**</description>
+      <params>- **array**: The list to browse.
+- **callback**: The predicate to call.</params>
+      <returns>- **some**: **true** if the predicate returned **true** for at least one element, **false** otherwise.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>shuffle</name>
+      <description>Randomly shuffles a list.*Example* :
+```leekscript
+var list = [1, 2, 3, 4, 5]
+shuffle(list)
+debug(list) // [4, 1, 2, 5, 3] for example
+```</description>
+      <params>- **array**: The list to shuffle.
+</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>ceil</name>
+      <description>Returns the rounding up of **number**.
+You can find rounding down with [[floor]], and rounding with [[round]].</description>
+      <params>- **number** Number for which we want to find the upper rounding.</params>
+      <returns>- **result** Rounded up to the nearest integer of number.</returns>
+      <notes />
+      <examples>`eye(1) // 1`
+`ceil(1.8) // 2`
+`ceil(2.3) // 3`
+`ceil(3.5) // 4`
+`ceil(-12.79) // -12`
+</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>arrayChunk</name>
+      <description>Splits the array **array** into sub-arrays of maximum size **chunkSize** and returns the array of these sub-arrays.
+The last sub-array can contain less that chunkSize elements.</description>
+      <params>- **array**: The array to split.
+- **chunkSize**: The maximum size of sub-arrays.</params>
+      <returns>- **chunks**: The produced sub-arrays.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>arrayFilter</name>
+      <description>Returns a new list containing all values from the source list **array** for which the **callback** function returned a value equivalent to `true`.The **callback** function takes 1 to 3 parameters in this order: (*value*, *position*, *source list*).*Example* :
+```leekscript
+let array = [1, 2, 3, 4, 5]
+var result = arrayFilter(array, function(v) {
+    return v % 2 == 0
+}) // [2, 4]
+```</description>
+      <params>- **array** Original list.
+- **callback** Function called for each element.</params>
+      <returns>- **newArray** New filtered list.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>moveToward</name>
+      <description>Brings your entity closer to another **entity**, using maximum **mp** movement points.</description>
+      <params>- **entity**: The entity to which your entity must approach.
+- **mp**: The maximum number of MP to use.</params>
+      <returns>- **mp**: The number of movement points used.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>randReal</name>
+      <description>Returns a real random number, between **a** (inclusive) and **b** (exclusive).</description>
+      <params>- **a**: Lower bound (included).
+- **b**: Upper bound (excluded).</params>
+      <returns>- **number**: A real random number in the interval [a; b[.</returns>
+      <notes />
+      <examples>`randReal(10, 20) // 17.551965161250713`
+`randReal(1000, 2000) // 1610.705920097898`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getSummoner</name>
+      <description>Returns the entity that invoked the **entity** entity, if it is an invocation.</description>
+      <params>- **entity**: The id of the entity whose summoner will be returned.</params>
+      <returns>- **summoner**: The id of the entity that invoked **entity** if it is an invocation, `-1` otherwise.- **summoner** : The id of the entity that invoked **entity**.
+    - `-1` if **entity** is not a summon
+	- `null` if **entity** is not an id of an entity in the fight
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>setWeapon</name>
+      <description>Equips the weapon **weapon** on your entity.This functions costs **1[[Turn Points|TP]]** <img height=16 src="/image/charac/tp.png">.To avoid re-equipping the same weapon and losing this PT every turn, it is possible to use a `if` condition like this:
+```
+if (getWeapon() != WEAPON_PISTOL) {
+	setWeapon(WEAPON_PISTOL)
+}
+```</description>
+      <params>- **weapon** : Weapon's id.
+</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getFarthestEnemy</name>
+      <description>Returns the farthest enemy, using as the crow flies distance.</description>
+      <params />
+      <returns>- **farthestEnemy** : Farthest enemy's entity id.
+	- `-1` if you have no enemy
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapEvery</name>
+      <description>Returns `true` if the **callback** predicate applied to each element of the **map** table returns `true`, `false` otherwise.</description>
+      <params>- **map**: The table.
+- **callback**: The predicate.</params>
+      <returns>- **every**: `true` if the predicate **callback** returned `true` for each element, `false` otherwise.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>replace</name>
+      <description>Replaces all occurrences of **search** with **replace** in the string **string**.</description>
+      <params>- **string** String in which replacements are made.
+- **search** Substring to replace.
+- **replace** Replacement string.</params>
+      <returns>- **string** The result string, with replacements.</returns>
+      <notes />
+      <examples>`replace("Banana", "n", "t") // "Batata"`
+`replace("a,b,c,d,e,f", ",", "+") // "a+b+c+d+e+f"`
+`replace("Hello world", "Hello", "Good evening") // "Good evening world"`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>atan</name>
+      <description>Computes the arctangent of argument, in the interval [0, [[PI]]].</description>
+      <params>- **argument** Number whose arctangent will be calculated.</params>
+      <returns>**result** The arctangent of argument.</returns>
+      <notes />
+      <examples>`atan(0) // 0`
+`atan(sqrt(3) / 3) // PI / 6`
+`atan(1) // PI / 4`
+`atan(-1) // -PI / 4`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getCellToUseWeapon</name>
+      <description>Returns a cell where your entity can use the **weapon** on the **entity**.
+The returned cell is not necessarily the closest.
+If no cell is possible, the function returns `-1`.Example to use the [[Laser]]:
+```
+var cell = getCellToUseWeapon(WEAPON_LASER, enemy)
+moveTowardCell(cell)
+useWeapon(enemy)
+```</description>
+      <params>- **weapon**: The weapon to test. Defaults to your currently equipped weapon.
+- **entity**: The target entity.
+- **ignoredCells**: Table of cells to ignore. By default your entity is ignored.</params>
+      <returns>- **cell**: The cell where the weapon can be used.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapGet</name>
+      <description>Returns the value of the **map** table associated with the key **key**, or **default** if the key does not exist in the table.</description>
+      <params>- **map**: The table.
+- **key**: The key.
+- **default**: The default value (by default `null`).</params>
+      <returns>- **element**: The value.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getDistance</name>
+      <description>Calculates the distance as the crow flies between two cells <b>cell1</b> and <b>cell2</b>.To get the distance in number of cells, see [[getCellDistance]], and to get the length of the path between the two cells dodging the various obstacles, see [[getPathLength]].</description>
+      <params>- **cell1**: The starting cell.
+- **cell2**: The arrival cell.</params>
+      <returns>- **distance**: The distance as the crow flies between the two cells.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapKeys</name>
+      <description>Returns a list containing all the keys of the **map** table.</description>
+      <params>- **map**: The table.</params>
+      <returns>- **keys**: The keys of the table.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getChipCooldown</name>
+      <description>Returns the **chip** chip recovery time, taken from the market.</description>
+      <params>- **chip**: The chip whose cooldown will be returned.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>startsWith</name>
+      <description>Checks if the string **string** starts with the string **prefix**.</description>
+      <params>- **string** Search string.
+- **prefix** Prefix sought.</params>
+      <returns>- **startsWith** True if the **string** starts with **prefix**.</returns>
+      <notes />
+      <examples>`startsWith("Hello", "Hell") // true`
+`startsWith("Hello", "ello") // false`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>arrayEvery</name>
+      <description>Returns **true** if the predicate **callback** applied to each of the elements of the list returns **true**</description>
+      <params>- **array**: The list to browse.
+- **callback**: The predicate to call.</params>
+      <returns>- **every**: **true** if the predicate returned **true** for each element, **false** otherwise.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>log10</name>
+      <description>Calculates the logarithm in base 10 of the number **number**.</description>
+      <params>- **number** A number in the range ]0; +&#8734;[.</params>
+      <returns>- **log10**
+  - If **number** > 0, the base 10 logarithm of **number**.
+  - If **number** <= 0, returns `NaN`.</returns>
+      <notes />
+      <examples>`log10(1) // 0`
+`log10(10) // 1`
+`log10(1000000) // 6`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>leadingZeros</name>
+      <description>Returns the number of bits at 0 at the beginning of the number **x**.</description>
+      <params>- **x**: The number.</params>
+      <returns>- **zeros**: The number of zeros at the beginning of **x**.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getEnemyTurret</name>
+      <description>Returns the enemy turret id or `null` if it doesn't exist.</description>
+      <params />
+      <returns>- **enemyTurret**: The id of the enemy turret.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>isPermutation</name>
+      <description>Returns *true* if the numbers **x** and **y** are permutations in their decimal representation, *false* otherwise.</description>
+      <params>- **x**: First number.
+- **y**: Second number.</params>
+      <returns>- **permutation**: *true* if the numbers **x** and **y** are permutations, *false* otherwise.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getFightContext</name>
+      <description>Returns the context of the current fight.</description>
+      <params />
+      <returns>- **context**: Depending on the context of the fight:
+	- Test fight ([[FIGHT_CONTEXT_TEST]])
+	- Arena fight ([[FIGHT_CONTEXT_GARDEN]])
+	- Tournament fight ([[FIGHT_CONTEXT_TOURNAMENT]])
+	- Challenge fight ([[FIGHT_CONTEXT_CHALLENGE]])
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapFold</name>
+      <description>Reduces the **map** table starting from the value **v** and applying the function **f** for each element. The order of the elements is indeterminate.</description>
+      <params>- **map**: The table.
+- **f**: The reduction function.
+- **v**: The initial value.</params>
+      <returns>- **result**: The reduced value.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getWeaponPassiveEffects</name>
+      <description>Returns the passive effects of the **weapon**.</description>
+      <params>- **weapon**: The id of the weapon whose passive effects will be returned.</params>
+      <returns>- **passiveEffects**: An array containing the effects of the **weapon** weapon. Each effect is itself an array of the form
+`[type, min, max, turns, targets, modifiers]`. These effects are the same as those returned by [[getWeaponEffects]].
+If there are no passive effects, an empty list is returned.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>trailingZeros</name>
+      <description>Returns the number of bits to 0 at the end of the number **x**.</description>
+      <params>- **x**: The number.</params>
+      <returns>- **zeros**: The number of zeros at the end of **x**.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getWeapon</name>
+      <description>Returns the currently equipped weapon **entity**, or your entity if no parameter is provided.If no weapon is equipped, the function returns `null`.*Example*: if I have the pistol equipped, I use a [[Protein]] boost:
+```leekscript
+if (getWeapon() == WEAPON_PISTOL) {
+	useChip(CHIP_PROTEIN)
+}
+```</description>
+      <params>- **entity**: The id of the entity whose current weapon will be returned, by default, yourself.</params>
+      <returns>- **weapon**: The id of the weapon currently equipped on the entity **entity**, `null` if the entity has no weapon equipped or if the entity n 'does not exist.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>bitReverse</name>
+      <description>Reverses all bits of number **x** from left to right.</description>
+      <params>- **x**: The number to invert.</params>
+      <returns>- **reversed**: The reversed number.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>isInfinite</name>
+      <description>Returns **true** if the number **x** is infinite, **false** otherwise.</description>
+      <params>- **x**: The number to check.</params>
+      <returns>- **infinite**: **true** if the number **x** is infinite, **false** otherwise.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getFarthestAlly</name>
+      <description>Returns the farthest ally, using as the crow flies distance.</description>
+      <params />
+      <returns>- **farthestAlly** : Farthest ally's entity id.
+	- `-1` if you have no ally
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getNearestAlly</name>
+      <description>Renvoie l'entit&#233; alli&#233;e la plus proche de votre entit&#233;.</description>
+      <params />
+      <returns>- **nearestAlly** : L'id de l'entit&#233; alli&#233;e la plus proche.
+    - `-1` if you have no enemy
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>lineOfSight</name>
+      <description>Checks the line of sight between the **start** cell and the **end** cell, ignoring entities in the **entityToIgnore** array.*Example*: `if (lineOfSight(getCell(), getCell(enemy))`The algorithm is described as follows:
+- Draw a segment between the centers of the two cells tested.
+- List the cells crossed by this segment. A cell is not considered crossed if the segment touches its edge, or if it is ignored.
+- If only one of these crossed cells is an obstacle or contains an entity, the line of sight is blocked, otherwise it is clear.</description>
+      <params>- **start**: Starting cell.
+- **end**: Target cell.
+- **entityToIgnore** (optional): Entity to ignore or array of entities to ignore, by default, your entity is ignored.</params>
+      <returns>- **los**: (boolean)
+	- `null` if **start** or **end** is not a cell of the map;
+	- `true` if the line of sight is clear;
+	- `false` otherwise.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getCellsToUseChip</name>
+      <description>Lists all cells that allow your entity to use a given **chip**, targeting given **entity**.</description>
+      <params />
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>useWeapon</name>
+      <description>Use selected weapon on **entity**.*Example*: using the pistol on the nearest enemy:
+```
+var enemy = getNearestEnemy()
+setWeapon(WEAPON_PISTOL)
+useWeapon(enemy)
+```</description>
+      <params>- **entity**: Targeted entity.</params>
+      <returns>- **result**: The return values of useWeapon are:
+	- [[USE_CRITICAL]], on critical hit
+	- [[USE_SUCCESS]], if successful
+	- [[USE_FAILED]], on failure
+	- [[USE_INVALID_TARGET]], if the target does not exist
+	- [[USE_NOT_ENOUGH_TP]], if your entity doesn't have enough TP
+	- [[USE_INVALID_POSITION]], if range is bad or line of sight is not clear</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>max</name>
+      <description>Returns the largest value between the two numbers **a** and **b**.</description>
+      <params>- **a** A number.
+- **b** A number.</params>
+      <returns>- **max** The largest number between **a** and **b**.</returns>
+      <notes />
+      <examples>`max(2, 5) // 5`
+`max(-2, -5) // -2`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getWeaponEffects</name>
+      <description>Returns **weapon** weapon effects.</description>
+      <params>- **weapon**: The id of the weapon whose effects will be returned.</params>
+      <returns>- **effects**: An array containing the effects of the weapon **weapon**. Each effect is itself an array of the form
+`[type, min, max, turns, targets, modifiers]`.
+	- **type** is one of the effect constants: [[EFFECT DAMAGE|EFFECT_DAMAGE]], [[EFFECT_HEAL]], [[EFFECT_ABSOLUTE_SHIELD]], [[EFFECT_RELATIVE_SHIELD]], [[ EFFECT_DEBUFF]], [[EFFECT_BUFF_STRENGTH]], [[EFFECT_BUFF_AGILITY]], [[EFFECT_BUFF_MP]], [[EFFECT_BUFF_TP]] etc.
+	- **min** and **max** are the minimum and maximum value of the effect (as shown in the market).
+	- **turns** is the duration of the effect in number of turns.
+	- **targets** represents the players that will be hit by this effect in the area. It is a binary combination of the constants:
+		- [[EFFECT_TARGET_ALLIES]]: Affects allies
+		- [[EFFECT_TARGET_ENEMIES]]: Affects enemies
+		- [[EFFECT_TARGET_CASTER]]: Affects the caster
+		- [[EFFECT_TARGET_SUMMONS]]: Affects summons
+		- [[EFFECT_TARGET_NON_SUMMONS]]: Affects non-summoned entities
+	- **modifiers** represents the modifiers of the effect. It is a binary combination of the constants:
+		- [[EFFECT_MODIFIER_STACKABLE]]: The effect is stackable.
+		- [[EFFECT_MODIFIER_MULTIPLIED_BY_TARGETS]]: The effect is multiplied by the number of targets hit in the area.
+		- [[EFFECT_MODIFIER_ON_CASTER]]: Always affects the caster.</returns>
+      <notes />
+      <examples>Recover average weapon damage:
+```
+var effects = getWeaponEffects(WEAPON_PISTOL)
+var averagedamage = (effects[0][1] + effects[0][2]) / 2
+```Read *targets* targets:
+```
+if (targets &amp; EFFECT_TARGET_ALLIES) debug('Affects allies')
+if (targets &amp; EFFECT_TARGET_ENEMIES) debug('Affects enemies')
+if (targets &amp; EFFECT_TARGET_CASTER) debug('Affects caster')
+if (targets &amp; EFFECT_TARGET_SUMMONS) debug('Affects summons')
+if (targets &amp; EFFECT_TARGET_NON_SUMMONS) debug('Affects leeks')
+```Read modifiers:
+This value can be read as follows:
+```
+if (modifiers &amp; EFFECT_MODIFIER_STACKABLE) debug("The effect is stackable")
+if (modifiers &amp; EFFECT_MODIFIER_MULTIPLIED_BY_TARGETS) debug("The effect is multiplied by the number of targets")
+if (modifiers &amp; EFFECT_MODIFIER_ON_CASTER) debug("Affects caster")
+```
+</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>canUseChip</name>
+      <description>Determines if your entity can use the **chip** chip on the entity with id **entity** from its current cell.The function checks the following points:
+ - Range: comparison between the distance and the minimum and maximum range of the chip.
+ - Clear line of sight between the two positions ([[lineOfSight]]).
+ 
+The function does not check if you have sufficient [[PT]] for the cost of the chip or if the chip is not in recovery (recovery time: [[getCooldown]]).
+</description>
+      <params>- **chip**: The number of the chip to be tested.
+- **entity**: The id of the entity on which you want to use the chip.</params>
+      <returns>- **canUse**: `true` if your entity can use the chip, `false` otherwise.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>subArray</name>
+      <description>Returns a subarray of <b>array</b> starting at position <b>start</b> and ending at position <b>end</b>.</description>
+      <params>- **array**: Source array.
+- **start**: Starting position.
+- **end**: End position.</params>
+      <returns>- **newArray**: The sub-array.</returns>
+      <notes />
+      <examples>```
+var array = [0, 1, 2, 3, 4, 5]
+debug(subArray(array, 2, 4)) // [2, 3, 4]
+```With an associative array:
+```
+var arrayAssoc = [2:0, 3:1, 4:2, 5:3, 6:4, 7:5]
+debug(subArray(arrayAssoc, 2, 4)) // [2, 3, 4] not [0, 1, 2]
+```</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>setClear</name>
+      <description>Clears the **set** set.</description>
+      <params>- **set** : The set.</params>
+      <returns>- **set** : Set emptied.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>useChip</name>
+      <description>Use the **chip** on the **entity** entity, or on yourself if the second parameter is not provided.*Example*: Using the [[Motivation]] bullet on myself:
+```
+useChip(CHIP_MOTIVATION)
+```
+*Example*: Using the [[Discharge]] chip on an enemy:
+```
+useChip(CHIP_SHOCK, enemy)
+```</description>
+      <params>- **chip**: Chip to use.
+- **entity**: Target entity, by default your entity.</params>
+      <returns>- **result**: The return values of useChip are:
+	- [[USE_CRITICAL]], on critical hit
+	- [[USE_SUCCESS]], if successful
+	- [[USE_FAILED]], on failure
+	- [[USE_INVALID_TARGET]], if the target does not exist
+	- [[USE_NOT_ENOUGH_TP]], if your entity doesn't have enough TP
+	- [[USE_INVALID_COOLDOWN]], if the chip is not usable yet
+	- [[USE_INVALID_POSITION]], if range is bad or line of sight is not clear</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>intervalIsRightClosed</name>
+      <description>Returns whether the **interval** is closed on the right or not.</description>
+      <params>- **interval**: The interval.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>setContains</name>
+      <description>Searches for an element **element** in the set **set**.</description>
+      <params>- **set**: The set.
+- **element**: The element to search for.</params>
+      <returns>- **contains** : `true` if the element exists in the set, `false` otherwise.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>intervalToArray</name>
+      <description>Returns a list containing the elements of the interval **interval** with a **step** distance between each.If the interval is negative, takes the elements in reverse order.</description>
+      <params>- **interval** : Interval.
+- **step** : The distance between each element, can be negative.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>intervalIsLeftBounded</name>
+      <description>Returns whether the interval **interval** is left bounded or not.</description>
+      <params>- **interval** : The interval</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>setIsEmpty</name>
+      <description>Returns whether a **set** is empty or not.</description>
+      <params>- **set**: The set.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>setUnion</name>
+      <description>Calculates the union of two sets **set1** and **set2**, noted `set1 &#8746; set2`, which contains all elements present in **set1** or in **set2**.</description>
+      <params>- **set1**: The first set.
+- **set2** : The second set.</params>
+      <returns>- **union**: The union of the two sets `set1 &#8746; set2`.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>push</name>
+      <description>Add the element **element** at the end of the array **array**.</description>
+      <params />
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>setSize</name>
+      <description>Returns the size of the **set** set.</description>
+      <params>- **set**: The set.</params>
+      <returns>- **size** : The size of the set.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>setToArray</name>
+      <description>Returns a list containing all elements of the **set** set.The order of the elements is arbitrary.</description>
+      <params>- **set** : The set.</params>
+      <returns>- **array**: A list containing all the elements of the set.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>intervalAverage</name>
+      <description>Calculates the interval average.- If the interval is bounded on the right and left, returns `(intervalMin(i) + intervalMax(i)) / 2`.
+- If the interval is left-bound only, returns `+&#8734;`.
+- If the interval is bounded only on the right, returns `-&#8734;`.
+- If the interval is unbounded or empty, returns `NaN`.</description>
+      <params>- **interval**: The interval.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>contains</name>
+      <description>Determines whether a **search** string is within a **string**.</description>
+      <params>- **string** String in which the search will be performed.
+- **search** String to search for.</params>
+      <returns>- **contains** true if **search** is in **string**, false otherwise.</returns>
+      <notes />
+      <examples>`contains("Hello", "el") // true`
+`contains("Hello", "zzz") // false`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>setPut</name>
+      <description>Inserts a **element** element into the **set** set.</description>
+      <params>- **set**: Set.
+- **element**: The element to be added.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>setRemove</name>
+      <description>Removes an element **element** from the set **set**.</description>
+      <params>- **set**: Set.
+- **element**: The element to be deleted.</params>
+      <returns>- **existed**: `true` if the element existed in the set, `false` if it was not present.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>moveTowardCells</name>
+      <description>Moves your entity closer to the first cell in a set of **cells**, using a maximum of **mp** movement points.If, within the set of **cells**, there is a cell within movement range which brings your entity closer to the first cell of **cells**, then the entity will move to the cell of **cells** closest to the entity's starting square.If, in the set of **cells**, there is no cell within movement range that brings your entity closer to the first cell of **cells**, then the entity will move closer to the first cell of the set of **cells** using a maximum of **mp** movement points.</description>
+      <params>- **cells** : The array containing the cell to which your entity should move towards, and the cells over which your entity will move if they are within range.
+- **mp** : The maximum number of MPs to use. No limit by default.</params>
+      <returns>- **mp**: The number of movement points used.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getCell</name>
+      <description>Returns the cell where the entity with id <b>entity</b> is located.
+Use `getCell()` with no parameters to retrieve your cell.*Example*: calculate the distance between me and the enemy, and boost if it is close:
+```
+var distance = getCellDistance(getCell(), getCell(enemy))
+if (distance < 10) {
+	useChip(CHIP_PROTEIN)
+}
+```</description>
+      <params>- **entity**: The id of the entity whose cell will be returned, by default your entity.</params>
+      <returns>- **cell**: The number of the cell where the entity <b>entity</b> is located.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>number</name>
+      <description>Converts a value to a number. If the value is a string, the number function will try to convert it to a number, if the value is already a number, the function returns the number, and for any other type, it returns 0.</description>
+      <params>- **value** The value to convert to a number.</params>
+      <returns>- **number** The converted number.</returns>
+      <notes />
+      <examples>`number("12345") // 12345`
+`number("3.14159") // 3.14159`
+`number("hello") // 0`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>arrayFrequencies</name>
+      <description>Returns a table associating for each unique element of the list **array** its quantity (element => quantity).*Example* :
+```leekscript
+var list = [1, 1, 2, 2, 2, 2, 3, 4, 4]
+var frequencies = arrayFrequencies(list)
+debug(frequencies) // [1 : 2, 2 : 4, 3 : 1, 4 : 2]
+```</description>
+      <params>- **array**: The list.</params>
+      <returns>- **frequencies**: The frequency table.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getEffects</name>
+      <description>Returns the list of effects of the entity with id **entity**. To directly retrieve the list of effects for your entity, use [[getEffects]] without parameters.</description>
+      <params> - **entity**: The id of the entity whose list of effects will be returned.</params>
+      <returns> - **effects**: The list of effects currently present on the entity **entity**. The effects list is an array containing the effects. An effect is itself an array of 8 boxes of the form:
+```
+ [type, value, caster_id, turns, critical, item_id, target_id, modifiers]
+```
+  - *type* is the type of the effect among:
+	- [[EFFECT_DAMAGE]], **value** is the damage number
+	- [[EFFECT_HEAL]], **value** is the number of HP healed
+	- [[EFFECT_BUFF_STRENGTH]], **value** is strength gained
+	- [[EFFECT_BUFF_AGILITY]], **value** is the agility gained
+	- [[EFFECT_BUFF_TP]], **value** is the number of TP gained
+	- [[EFFECT_BUFF_MP]], **value** is the number of MP gained
+	- [[EFFECT_ABSOLUTE_SHIELD]], **value** is absolute shield gained
+	- [[EFFECT_RELATIVE_SHIELD]], **value** is relative shield gained
+	- [[EFFECT_DEBUFF]], indicates a debuff, **value** is the percentage of effects removed.
+etc
+ - *value*: The value of the effect.
+ - *caster_id*: The id of the entity that launched the effect.
+ - *turns*: The number of remaining turns of the effect.
+ - *critical*: Is the effect a critical hit.
+ - *item_id*: The id of the item that caused this effect.
+ - *target_id*: The id of the effect target (**entity**).
+ - *modifiers*: Effect modifiers (bit mask with **EFFECT_MODIFIER_*** constants).</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>randFloat</name>
+      <description>Returns a real random number, between **a** (inclusive) and **b** (exclusive).</description>
+      <params>- **a** Lower bound.
+- **b** Upper bound.</params>
+      <returns>- **number** A random number in the range [a; b[.</returns>
+      <notes />
+      <examples>`randFloat(10, 20) // 17.551965161250713`
+`randFloat(1000, 2000) // 1610.705920097898`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>search</name>
+      <description>Finds the element <b>element</b> in the array <b>array</b>, starting from position <b>start</b>.</description>
+      <params>- **array**: The search array.
+- **element**: The element to search for.
+- **start**: The position of the start of the search.</params>
+      <returns>- **pos**: The position of the first occurrence of the <b>element</b> element in the <b>array</b>, starting from <b>start</b>, ` -1` if the element was not found.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getCooldown</name>
+      <description>Returns the current **chip** cooldown of the **entity** entity.</description>
+      <params>- **chip**: The chip whose current cooldown will be returned.
+- **entity**: The entity whose cooldown will be returned.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>split</name>
+      <description>Splits the **string** into substrings delimited by **delimiter**. To limit the cut to a certain number of pieces, use the **limit** parameter.</description>
+      <params>- **string** Chain to be cut.
+- **delimiter** String delimiting the passage from one element to another.
+- **limit** (optional) The maximum number of substrings, default, no limit.</params>
+      <returns>- **parts** Array containing the substrings found.</returns>
+      <notes />
+      <examples>`split("456-789-123", "-") // ["456", "789", "123"]`
+`split("Hello", "") // ["H", "e", "l", "l", "o"]`
+`split("Hello", "zzz") // ["Hello"]`
+`split("456-789-123", "-", 2) // ["456", "789-123"]`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>arrayMap</name>
+      <description>Returns a new array containing for each value of the source array **array**, the value returned by the **callback** function.The **callback** function takes 1 to 3 parameters in this order: (*value*, *position*, *source array*).</description>
+      <params>- **array**: Original array.
+- **callback**: Function called for each element.</params>
+      <returns>- **newArray**: New array.
+</returns>
+      <notes>- In **LeekScript <= 3**, if the **callback** function takes one parameter, the value of the source array will be sent, if it takes two parameters, the key and the value will be sent sent.</notes>
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>indexOf</name>
+      <description>Determines the position of the first occurrence of the string **search** in the string **string**.</description>
+      <params>- **string** The string where the search will be performed.
+- **search** The string to search for.
+- **start** The search start position, by default the beginning of the string (**0**).</params>
+      <returns>- **index** The position of the first occurrence of **search** in **string**, -1 if the string was not found.</returns>
+      <notes />
+      <examples>`indexOf("Hello", "llo") // 2`
+`indexOf("Hello", "zzz") // -1`
+`indexOf("Hello world", "l", 0) // 2`
+`indexOf("Hello world", "l", 5) // 9`
+</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getOperations</name>
+      <description>Returns the number of operations consumed by your entity since the start of its turn. This number must remain lower than [[OPERATIONS_LIMIT]] so that the entity does not crash.*Example* :
+```
+if (getOperations() > OPERATIONS_LIMIT * 0.9) {
+    break // 90% of the operations used, we stop.
+}
+```</description>
+      <params />
+      <returns>- **operations**: Number of operations consumed by your entity since the start of its turn.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getWeapons</name>
+      <description>Lists given <b>entity</b>'s weapons.</description>
+      <params />
+      <returns>- **weapon**: Array containing all of given <b>entity</b>'s weapons.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>arrayGet</name>
+      <description>Returns the element of the list **array** at position **index**. If the index is out of the list, return **defaultValue** instead.</description>
+      <params>- **array**: The list.
+- **index**: The position of the desired element.
+- **defaultValue**: The default value (by default `null`).</params>
+      <returns>- **element**: The element of the list **array** at position **index**.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getPath</name>
+      <description>Returns the path avoiding obstacles between two cells **cell1** and **cell2**, if it exists, ignoring the cells contained in the array **ignoredCells** .The starting cell **cell1** is never part of the resulting path. Cell **cell2** is part of the resulting path if and only if it is empty.If no path exists between the two cells, **getPath** returns `null`.Be careful, it is possible that `getPath(cell1, cell2) !== getPath(cell2, cell1)`.</description>
+      <params> - **start**: The starting cell.
+ - **end**: The arrival cell.
+ - **ignoredCells**: The array of cells to ignore. By default an empty array.</params>
+      <returns> - **path**
+ 	- If a path exists: an array containing the cells making up the path between the two cells
+ 	- If the path was not found: `null`.</returns>
+      <notes />
+      <examples>```
+var path = getPath(getCell(), getCell(enemy))
+mark(path, COLOR_RED) // Displays the path between me and the enemy
+```</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>round</name>
+      <description>Returns the rounding of **number**.
+You can find rounding down with [[floor]], and rounding up with [[ceil]].</description>
+      <params>- **number** Number whose rounding we want to find.</params>
+      <returns>- **number** Rounding of number.</returns>
+      <notes />
+      <examples>`round(1) // 1`
+`round(1.8) // 2`
+`round(2.3) // 2`
+`round(3.5) // 4`
+`round(-12.79) // -13`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>exp</name>
+      <description>Raises Euler's number [[E]] to the number power.</description>
+      <params>- **number** The exponent to which [[E]] will be raised.</params>
+      <returns>- **result**: E**number.</returns>
+      <notes />
+      <examples>`exp(0) // 1`
+`exp(1) // E`
+`exp(12) // 162754.791419`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>byteReverse</name>
+      <description>Reverses the bytes (8 bits) of a number **x**.</description>
+      <params>- **x**: The number to invert byte by byte.</params>
+      <returns>- **reversed**: The reversed number.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>abs</name>
+      <description>Returns the absolute value of the number **number**.</description>
+      <params>- **number**: The number whose absolute value will be calculated.</params>
+      <returns>- **result**: The absolute value of the number.</returns>
+      <notes>The expression `abs(x)` is equivalent to `x > 0? x : -x`.</notes>
+      <examples>- Remove the sign from a number:
+```leekscript
+var a = -12
+var a_without_sign = abs(a)
+debug(a_sans_sign) // 12
+```- Calculate the distance between two numbers:
+```leekscript
+let a = 12
+var b = -5
+var distance = abs(a - b)
+debug(distance) // 17
+```</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getPathLength</name>
+      <description>Returns the length of a path between **cell1** and **cell2** that avoids occupied cells, except **ignoredCells** which are considered empty even when an entity is present. This function is equivalent to `count(getPath(cell1, cell2, ignoredCells))`.The starting cell **cell1** is never counted in the result. The destination cell **cell2** is counted in the result if and only if it is empty or ignored by **ignoredCells**.If no path exists between the two cells, **getPathLength** returns `null`.</description>
+      <params>- **cell1**: Cell id of starting point.
+- **cell2**: Cell id of destination.
+- **ignoredCells**: Array of cells considered inoccupied even when an entity is present. By default an empty array.</params>
+      <returns>- **length**
+	- If a path exists: length of the path between **cell1** and **cell2**.
+	- If the path was not found: `null`.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>include</name>
+      <description>Include the AI located at path **ai** in the current AI.Be careful, the include function must be called only in the main block, and its parameter must be a string written directly in the code. For more information, see the section in the tutorial: https://leekwars.com/help/tutorial#includes.- To include an AI in a **different folder**:
+```
+include("folder/other/functions.leek")
+```- To go back to a **parent folder**:
+```
+include("../strategy/attack.leek")
+```- To start from the **root folder**:
+```
+include("/main/item.leek")
+```</description>
+      <params>- **ai**: The path of the AI to include.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>rotateRight</name>
+      <description>Returns a new number with the bits of **x** shifted by **s** to the right (resets the bits to the left).</description>
+      <params>- **x**: The number to rotate.
+- **s**: The size of the rotation.</params>
+      <returns>- **rotated**: The rotated number.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>summon</name>
+      <description>Uses given <b>chip</b> to summon the corresponding entity on given <b>cell</b>. The entity uses the AI contained in given <b>ai</b> function.</description>
+      <params>- **chip** : Desired chip. It has to be a summoning chip, equipped on the sumonning entity.
+- **cell** : Cell where the summon should appear.
+- **ai** : The sumonned entity's AI, as a function.</params>
+      <returns>- **return** : Summoning result, see #useChip for details.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>average</name>
+      <description>Calculates the average of the elements contained in the array **array**.<br>
+The average is calculated by converting each element to a real number, calculating their sum, and finally dividing this sum by the size of the array.</description>
+      <params>  - **array**: Array whose average we want to calculate.</params>
+      <returns>  - **averageValue**: (real number) Average value.
+    - If the array is empty, returns `0.0`.</returns>
+      <notes />
+      <examples>```
+let array = [10, 15.5, 16, 18, 13]
+debug("average = " + average(array)) // Displays 14.5
+```
+</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getCellToUseWeaponOnCell</name>
+      <description>Determines a cell where your entity can use the **weapon** on a **cell**.
+The returned cell is not necessarily the closest.
+If no cell is possible, the function returns `-1`.</description>
+      <params>- **weapon**: The weapon to test. Defaults to your currently equipped weapon.
+- **cell**: The target cell.
+- **ignoredCells**: Table of cells to ignore. By default your entity is ignored.</params>
+      <returns>- **cell**: The cell where the weapon can be used.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>bitsToReal</name>
+      <description>Converts bits of an integer to a floating point number.</description>
+      <params>- **x**: The bits to convert.</params>
+      <returns>- **real**: Floating number converts.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>say</name>
+      <description>Makes declare the phrase **message** to your entity.This function costs **1PT** <img height=16 src="https://leekwars.com/image/charac/tp.png">.Message length is limited to **100**, excess will be trimmed.
+To limit chatter overload, a limit of **2** say() per turn is in place.*Example*: greeting your opponent:
+```leekscript
+say("Hello there, " + getName(getNearestEnemy() + "!")
+```</description>
+      <params>- **message**: Message that your entity will announce in the arena.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>atan2</name>
+      <description>Converts Cartesian coordinates (<b>x</b>, <b>y</b>) to polar coordinates (<b>r</b>, <b>theta</b>). This function returns the <b>theta</b> angle between -[[PI]] and [[PI]] using the signs of the arguments.</description>
+      <params>- **y** y-coordinate.
+- **x** Coordinate in x.</params>
+      <returns>- **result** The angle <b>theta</b> in polar coordinates of the point (x, y).</returns>
+      <notes />
+      <examples>`atan2(1, 1) // PI / 4`
+`atan2(-1, 1) // -PI / 4`
+`atan2(1, -1) // 3 * PI / 4`
+`atan2(-1, -1) // -3 * PI / 4`
+</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>endsWith</name>
+      <description>Determines whether a **string** ends with a **suffix**.</description>
+      <params>- **string** String in which the search will be performed.
+- **suffix** Suffix to search for.</params>
+      <returns>- **endsWith** true if **string** ends with **suffix**.</returns>
+      <notes />
+      <examples>`endsWith("Hello", "ello") // true`
+`endsWith("Hello", "Hell") // false`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>intervalIntersection</name>
+      <description>Calculates the intersection of two intervals **interval1** and **interval2**, containing the elements common to both.</description>
+      <params>- **interval1** : The first interval.
+- **interval2** : The second interval.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>intervalMin</name>
+      <description>Returns the lower limit of the interval **interval**.</description>
+      <params>- **interval** : The interval</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>typeOf</name>
+      <description>Returns the type of the value **value**, among the types:
+  - [[TYPE_NULL]] for a `null` value.
+  - [[TYPE_BOOLEAN]] for a boolean, `true` or `false`.
+  - [[TYPE_NUMBER]] for a number, example: `12`, `-0.15`.
+  - [[TYPE_STRING]] for a character string, example: `"hello"`.
+  - [[TYPE_ARRAY]] for an array, example: `[1, 2, 3]`.
+  - [[TYPE_MAP]] for an associative array, exemple : `[a: 5, b: true]`.
+  - [[TYPE_OBJECT]] for an object, example: `{a: 5, b: true}`.
+  - [[TYPE_CLASS]] for a class, example: `class A { }`.
+  - [[TYPE_FUNCTION]] for a function, example: `function() {}`.</description>
+      <params>  - **value**: The value whose type will be returned.</params>
+      <returns>  - **type**: (number) The type of **value**.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getCellsToUseWeaponOnCell</name>
+      <description>Lists all cells that allow your entity to shoot a given **weapon**, targeting given **cell**.</description>
+      <params />
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>intervalIsBounded</name>
+      <description>Returns whether the interval **interval** is bounded on the left and right or not.</description>
+      <params>- **interval**: The interval.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>intervalCombine</name>
+      <description>Combines two intervals **interval1** and **interval2**.Equivalent to union if their intersection is non-empty, otherwise also includes the set in between.</description>
+      <params>- **interval1** : The first set.
+- **interval2** : The second set.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>intervalIsEmpty</name>
+      <description>Returns whether the **interval** is empty or not.</description>
+      <params>- **interval**: The interval.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>intervalSize</name>
+      <description>Returns the size of the **interval** interval.- If the interval is bounded, returns `max - min`.
+- If the interval is not bounded, returns `+&#8734;`.
+- If the interval is empty, returns `0`.</description>
+      <params>- **interval**: The interval.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>intervalIsRightBounded</name>
+      <description>Returns whether the interval **interval** is right-bounded or not.</description>
+      <params>- **interval** : The interval</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>setIntersection</name>
+      <description>Calculates the intersection of two sets **set1** and **set2**, noted `set1 &#8745; set2`, which are the common elements of the two sets.</description>
+      <params>- **set1**: The first set.
+- **set2** : The second set.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>intervalIsClosed</name>
+      <description>Indicates if the interval **interval** is closed on the left and right.</description>
+      <params>- **interval**: The interval.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>intervalIsLeftClosed</name>
+      <description>Returns whether the **interval** is closed on the left or not.</description>
+      <params>- **interval**: The interval.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>setDisjunction</name>
+      <description>Calculates the exclusive disjunction of two sets **set1** and **set2**, noted `set1 &#8853; set2`, which are the elements present in **set1** or **set2**, but not in both at the same time.</description>
+      <params>- **set1** : The first set.
+- **set2** : The second set.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>intervalMax</name>
+      <description>Returns the upper limit of the **interval** interval.</description>
+      <params>- **interval** : The interval</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>setIsSubsetOf</name>
+      <description>Determines whether a set **set1** is a subset of **set2**.</description>
+      <params>- **set1**: The first set.
+- **set2** : The second set.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getWeaponName</name>
+      <description>Returns a <b>weapon</b>'s name.</description>
+      <params />
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>arrayRemoveAll</name>
+      <description>Removes all elements equal to **element** in the **array** list.</description>
+      <params>- **array**: The list.- **element**: The element to delete.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>floor</name>
+      <description>Calculates the rounding down of **number**.
+You can find rounding up with [[ceil]], and rounding with [[round]].</description>
+      <params>- **number** Number for which we want to find the lower rounding.</params>
+      <returns>- **result** Rounded down to number.</returns>
+      <notes />
+      <examples>`floor(1) // 1`
+`floor(1.8) // 1`
+`floor(2.3) // 2`
+`floor(3.5) // 3`
+`floor(-12.79) // -13`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>charAt</name>
+      <description>Returns the character of the string **string** located at position **position**.
+The first character of the string is at position 0.</description>
+      <params>- **string** String from which we want to retrieve a character.
+- **position** Position of the character to find.</params>
+      <returns>- **char** string containing the character sought, or an empty string if the position is invalid.</returns>
+      <notes />
+      <examples>`charAt("Hello", 3) // "l"`
+`charAt("Hello", 999) // ""`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>arrayUnique</name>
+      <description>Returns a list containing all the elements of the list **array** by eliminating duplicates.</description>
+      <params>- **array**: The original list.</params>
+      <returns>- **unique**: The new list without duplicates.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>toUpper</name>
+      <description>Converts lowercase characters in **string** to uppercase.</description>
+      <params>- **string** String to transform</params>
+      <returns>- **string** Uppercase string</returns>
+      <notes />
+      <examples>`toUpper("hello") // "HELLO"`
+`toUpper("Hello") // "HELLO"`
+`toUpper("HELLO") // "HELLO"`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>substring</name>
+      <description>Returns the substring of the string **string** starting from the character at index **start** and of size **length**.</description>
+      <params>- **string** Source string.
+- **start** Index of the starting character.
+- **length** Length of the substring.</params>
+      <returns>- **string** Substring.</returns>
+      <notes />
+      <examples>`substring("Hello world!", 3) // "lo world!"`
+`substring("Hello world!", 3, 6) // "lo wor"`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>show</name>
+      <description>Shows players a **cell** of the color **color** on the field for 1 turn.This function costs **1PT** <img height=16 src="https://leekwars.com/image/charac/tp.png">.The limit of show() per round is **5**.</description>
+      <params>- **cell**: The cell to show
+- **color**: Marking color (by default dark gray)</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>canUseWeapon</name>
+      <description>Determines if your entity can shoot the entity with id **entity** with the weapon **weapon** from its current cell.The function checks the following points:
+ - Range: comparison between the distance and the minimum and maximum range of the weapon.
+ - Clear line of sight between the two positions ([[lineOfSight]]).
+ 
+The function does not check if you have sufficient [[PT]] for the cost of the weapon or if the weapon is equipped.</description>
+      <params>- **weapon**: The weapon to test. Defaults to your currently equipped weapon.
+- **entity**: The id of the entity you want to shoot.</params>
+      <returns>- **canUse**: `true` if your entity can fire, `false` otherwise.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>sin</name>
+      <description>Calculates the sine of the angle **angle** passed in parameter.</description>
+      <params>- **angle** The angle whose sine will be calculated.</params>
+      <returns>- **sine** Returns the sine of the angle angle.</returns>
+      <notes />
+      <examples>`sin(0) // 0`
+`sin(PI / 2) // 1`
+`sin(PI / 3) // sqrt(3) / 2`
+`sin(PI / 6) // 0.5`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>arrayFoldLeft</name>
+      <description>Reduce the list <b>array</b> [v1, v2, ..., vn] from the left starting from the value <b>v0</b> and applying the function <b>f</b >.
+Equivalent to: `f(f(f(v0, v1), v2), ...)`</description>
+      <params>- **array**: Original list.
+- **f**: Function to apply.
+- **v0**: Starting value.</params>
+      <returns>- **result**: Reduced list.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>arrayFoldRight</name>
+      <description>Reduce the list <b>array</b> [v1, v2, ..., vn] from the right starting from the value <b>v0</b> and applying the function <b>f</b >.
+Equivalent to: `f(v1, f(v2, ..., f(vn, v0)))`</description>
+      <params>- **array**: Original list.
+- **f**: Function to apply.
+- **v0**: Starting value.</params>
+      <returns>- **result**: Reduced list.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>string</name>
+      <description>Converts a **value** to a character string.- If the value is null, `"null"` is returned.
+- If the value is a boolean, `"true"` and `"false"` are returned for `true` and `false` respectively.
+- If the value is already a string, it is returned.
+- If the value is number x, `"x"` is returned.
+- If the value is an array, a string of the form `[key1: value1, key2: value2, ...]` is returned.
+- If the value is an object, a string in the form `Class { field1: value1, field2: value2, ... }` is returned.
+</description>
+      <params>- **value** The value to convert into a character string.</params>
+      <returns>- **string** The converted string.</returns>
+      <notes />
+      <examples>`string(12345) // "12345"`
+`string([1, 2, 3]) // "[1, 2, 3]"`
+`string("hello") // "hello"`
+`string(2 > 1) // "true"`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>cos</name>
+      <description>Calculates the cosine of **angle**.</description>
+      <params>- **angle** Number whose cosine will be calculated (in radians).</params>
+      <returns>- **cosine** The cosine of angle, in the range [-1, 1].</returns>
+      <notes />
+      <examples>`cos(0) // 1`
+`cos(PI/2) // 0`
+`cos(PI/3) // 0.5`
+`cos(PI/6) // sqrt(3)/2`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>arrayFlatten</name>
+      <description>Returns a new array containing all the elements of the source array. All the elements contained in a sub-array are extracted into the new array.</description>
+      <params>- **array**: Original array.
+- **depth**: Depth of sub-arrays. Defaults to 1.</params>
+      <returns>- **newArray**: New array.</returns>
+      <notes />
+      <examples>```
+var array = [1, 2, [3, 4], 5, [6]]
+debug(arrayFlatten(array)) // [1, 2, 3, 4, 5, 6]
+debug(arrayFlatten([0, [1], [ [2] ], [ [ [3] ] ] ], 2)); // [0, 1, 2, [3]]
+```</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>arraySlice</name>
+      <description>Returns a sublist of **array** containing all elements from position **start** to position **end** (exclusive).If the increment parameter **stride** is passed, the function selects only one element every **stride**.</description>
+      <params>- **array**: The original list.
+- **start**: The start position.
+- **end**: The end position (excluded).
+- **stride**: The increment (by default `1`).</params>
+      <returns>- **slice**: The produced sub-list.</returns>
+      <notes />
+      <examples>- Access to a range: returns a new list containing elements at position from 10 (included) to 20 (excluded).
+```
+arraySlice(liste, 10, 20)
+```
+- Access to a range with increment: returns elements at positions 10, 13, 16, 19.
+```
+arraySlice(liste, 10, 20, 3)
+```
+- Negative increment: returns elements at position 20, 17, 14, 11
+```
+arraySlice(liste, 20, 10, -3)
+```</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getBlue</name>
+      <description>Returns the amount of blue in the color **color**, between 0 and 255.For example, getBlue([[COLOR_BLUE]]) = 255 and getBlue([[COLOR_GREEN]]) = 0.</description>
+      <params>- **color**: The color whose blue rate will be returned.</params>
+      <returns>- **blue**: The rate of blue in the color **color**
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>debug</name>
+      <description>Records a **object** message in the personal log, available in the report at the end of the fight.The limit on the amount of `debug()` possible per fight is **500,000** characters.*Example*:
+```
+debug("My damage variable is: " + damage)
+```</description>
+      <params>- **object**: The message to record.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>pow</name>
+      <description>Raises the number **base** to the exponent power.</description>
+      <params>- **base** The base.
+- **exp** The exponent.</params>
+      <returns>- **result** base raised to the exponent power.</returns>
+      <notes />
+      <examples>`pow(2, 10) // 1024`
+`pow(10, 6) // 1000000`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapIsEmpty</name>
+      <description>Returns `true` if the table is empty, `false` if it contains at least one (key, value).</description>
+      <params>- **map**: The table</params>
+      <returns>- **isEmpty**: `true` if the table is empty, `false` otherwise.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>asin</name>
+      <description>Computes the arcsine of <b>argument</b>, in the interval [0, [[PI]]].</description>
+      <params>- **argument** Number whose arcsine will be calculated.</params>
+      <returns>- The arcsine of <b>argument</b>.</returns>
+      <notes />
+      <examples>`asin(0) // 0`
+`asin(0.5) // PI / 6`
+`asin(1) // PI/2`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapMax</name>
+      <description>Returns the maximum value of the **map** table. If the table is empty, return `null`.</description>
+      <params>- **map**: The table.</params>
+      <returns>- **max**: The maximum value.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapSum</name>
+      <description>Returns the sum of all values in the **map** table. If the table is empty, returns `0.0`.</description>
+      <params>- **map**: The table.</params>
+      <returns>- **sum**: The sum of the table values.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>randInt</name>
+      <description>Returns a random integer number between **a** (inclusive) and **b** (exclusive).</description>
+      <params>- **a** Lower bound.
+- **b** Upper bound.</params>
+      <returns>- **number** A random integer in the range [**a**; **b**[.</returns>
+      <notes />
+      <examples>`randInt(10, 20) // 14`
+`randInt(1000, 2000) // 1680`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getLife</name>
+      <description>Returns the current life of the entity with id <b>entity</b>.
+Use getLife() with no parameters to retrieve your life.Example to heal if our life is less than 50%:
+```leekscript
+if (getLife() < getTotalLife() * 0.5) { // If my life < 50%
+	useChip(CHIP_CURE)
+}
+```</description>
+      <params>- **entity**: The id of the entity whose life will be returned.</params>
+      <returns>- **life**: The current life of the entity <b>entity</b>.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>toLower</name>
+      <description>Converts uppercase characters in **string** to lowercase.</description>
+      <params>- **string** String to transform</params>
+      <returns>- **string** Lowercase string</returns>
+      <notes />
+      <examples>`toLower("HELLO") // "hello"`
+`toLower("Hello") // "hello"`
+`toLower("hello") // "hello"`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getType</name>
+      <description>Returns the entity type of entity **entity**.</description>
+      <params>- **entity**: The id of the entity whose type will be returned.</params>
+      <returns>- **type**: The entity type of **entity**:
+- [ENTITY_LEEK](https://leekwars.com/help/documentation/ENTITY_LEEK) if it is a leek.
+- [ENTITY_BULB](https://leekwars.com/help/documentation/ENTITY_BULB) if it is a bulb.
+- [ENTITY_TURRET](https://leekwars.com/help/documentation/ENTITY_TURRET) if it is a turret.
+- [ENTITY_CHEST](https://leekwars.com/help/documentation/ENTITY_CHEST) if it is a chest.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>log</name>
+      <description>Calculates the natural logarithm of the number **number**.</description>
+      <params>- **number** A number in the range ]0; +&#8734;[.</params>
+      <returns>- **log** The natural logarithm of number.</returns>
+      <notes />
+      <examples>`log(1) // 0`
+`log(e) // 1`
+`log(1000000) // 13.815510558`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>sqrt</name>
+      <description>Calculates the square root of the number **number**.</description>
+      <params>- **number** Number whose root will be calculated.</params>
+      <returns>- **root** Square root of number.</returns>
+      <notes />
+      <examples>`sqrt(1) // 1`
+`sqrt(2) // 1.41421356237`
+`sqrt(4) // 2`
+`sqrt(31329) // 177`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>isStatic</name>
+      <description>Returns whether **entity** is static or not. A static entity cannot move or be moved.This is especially the case with team [[Turrets]].*Example*:
+```
+if (isStatic(entity)) {
+    debug("This entity cannot be moved")
+}
+```</description>
+      <params>- **entity**: The id of the entity to test.</params>
+      <returns>- **static**: `true` if **entity** is static, `false` otherwise.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getPassiveEffects</name>
+      <description>Returns the list of passive effects for the entity with id **entity**. To retrieve your entity's list of passive effects directly, use `getPassiveEffects()` without parameters.</description>
+      <params>- **entity** : The id of the entity whose passive effects list will be returned.</params>
+      <returns>- **passiveEffects**: The list of passive effects currently present on the **entity**.
+The list of passive effects is an array containing the effects. The return is the same as for [[getWeaponPassiveEffects]].
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>tan</name>
+      <description>Calculates the tangent of angle **angle** (in radians).</description>
+      <params>- **angle** Angle in radians.</params>
+      <returns>- **tangent** Tangent of angle.</returns>
+      <notes />
+      <examples>`tan(0) // 0`
+`tan(PI/6) // sqrt(3)/3`
+`tan(PI/4) // 1`
+`tan(-PI / 4) // -1`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getUsedRAM</name>
+      <description>Returns the amount of RAM currently used by your AI.</description>
+      <params />
+      <returns>- **ram**: The RAM currently used.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>isFinite</name>
+      <description>Returns **true** if the number **x** is finite, **false** otherwise.</description>
+      <params>- **x**: The number to check.</params>
+      <returns>- **finite**: **true** if the number **x** is finite, **false** otherwise.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>canUseWeaponOnCell</name>
+      <description>Determines if your entity can shoot the **cell** cell with the **weapon** weapon from its current cell.The function checks the following points:
+ - Range: comparison between the distance and the minimum and maximum range of the weapon.
+ - Clear line of sight between the two positions ([[lineOfSight]]).
+ 
+The function does not check if you have sufficient [[PT]] for the cost of the weapon or if the weapon is equipped.</description>
+      <params>- **weapon**: The weapon to test. Defaults to your currently equipped weapon.
+- **cell**: The number of the cell on which you want to shoot.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>signum</name>
+      <description>Determines the sign of the number **number**.</description>
+      <params>- **number** The number whose sign will be determined.</params>
+      <returns>- **sign** 1 if the number is positive, 0 if the number is zero and -1 if the number is negative.</returns>
+      <notes />
+      <examples>`sign(0) // 0`
+`sign(50) // 1`
+`signum(-12) // -1`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getWeaponEffectiveArea</name>
+      <description>Returns the list of cells that will be affected if the weapon **weapon** is used on cell **cell** from cell **from**.
+The function does not check if it is possible to shoot the cell **cell** or to go to the cell **from**.</description>
+      <params>- **weapon**: The weapon to test.
+- **cell**: The target cell.
+- **from**: The cell from which the weapon is used.</params>
+      <returns>- **cells**: The table containing the ids of all the cells that will be affected.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>isWeapon</name>
+      <description>Determines whether a value is a constant representing a weapon.
+```
+isWeapon(WEAPON_LASER) = true
+isWeapon(CHIP_TELEPORTATION) = false
+```</description>
+      <params>- **value**: The number to be determined.</params>
+      <returns>- **weapon**: `true` if the value is a weapon constant.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapAverage</name>
+      <description>Returns the average of all values in the **map** table. If the table is empty, returns `0.0`.</description>
+      <params>- **map**: The table.</params>
+      <returns>- **average**: The average.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>canUseChipOnCell</name>
+      <description>Determines if your entity can use the **chip** chip on cell **cell** from its current cell.The function checks the following points:
+- Range: comparison between the distance and the minimum and maximum range of the chip.
+- Clear line of sight between the two positions ([[lineOfSight]]).
+ 
+The function does not check if you have enough [[PT]] for the cost of the chip or if the chip is not in recovery (recovery time: [[getCooldown]]).
+</description>
+      <params>- **chip**: The number of the chip to be tested.
+- **cell**: The number of the cell on which you want to use the chip.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getChipEffectiveArea</name>
+      <description>Returns the list of cells that will be affected if the **chip** chip is used on the **cell** cell from a **from** cell.
+The function does not check if it is possible to use the chip on cell **cell** or to go to cell **from**.</description>
+      <params>- **chip**: The chip to be tested.
+- **cell**: The target cell.
+- **from**: The cell from which the chip is used.</params>
+      <returns>- **cells**: The table containing the ids of all the cells that will be affected.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>arraySort</name>
+      <description>Sorts the elements from given <b>array</b> according to <b>callback</b> function. Elements are compared by pairs, each one being an input of the callback function. The **callback** function needs to return -1, 0 or 1, respectively if the first input element is before, at the same place or after the second input element.The <b>callback</b> function takes 1 to 3 arguments in this order: **value**, **key**, **array**.</description>
+      <params />
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>acos</name>
+      <description>Computes the arccosine of <b>argument</b>, in the interval [0, [[PI]]].</description>
+      <params>- **argument** Number whose arc cosine will be calculated.</params>
+      <returns>- **result** The arc cosine of <b>argument</b>.</returns>
+      <notes />
+      <examples>`acos(0) // PI / 2`
+`acos(0.5) // PI / 3`
+`acos(-0.5) // 2 * PI / 3`
+</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getWeaponArea</name>
+      <description>Returns the area of effect type of the **weapon** weapon.</description>
+      <params>- **weapon**: The weapon whose zone type will be returned.</params>
+      <returns>- **area**: The area type of the **weapon** weapon among the AREA_* constants:
+  - [[AREA_POINT]]: single square area
+  - [[AREA_LASER_LINE]]: line of a laser
+  - [[AREA_CIRCLE_1]]: circular area 3 squares in diameter
+  - [[AREA_CIRCLE_2]]: circular area 5 squares in diameter
+  - [[AREA_CIRCLE_3]]: circular area 7 squares in diameter
+  - etc.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>length</name>
+      <description>Returns the length of the string **string**.</description>
+      <params>- **string** The string whose length will be returned.</params>
+      <returns>- **length** The length of the **string**.</returns>
+      <notes />
+      <examples>`length("") // 0`
+`length("a") // 1`
+`length("Hello") // 7`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>keySort</name>
+      <description>*This function is removed in LS4+ due to the list/table separation (array/map).*Sorts the <b>array</b> by keys in <b>order</b> order.</description>
+      <params>- **array**: The array to be sorted.
+- **order**: The sort order: #SORT_ASC or #SORT_DESC.
+</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>arrayConcat</name>
+      <description>Returns a new list containing all the elements of the lists passed as an end-to-end parameter.
+This function is equivalent to `list1 + list2`.*Example* :
+```
+var list1 = [1, 2]
+var list2 = [3, 4]
+debug(arrayConcat(list1, list2)) // [1, 2, 3, 4]
+```</description>
+      <params>- **array1**: First array.
+- **array2**: Second array.</params>
+      <returns>- **newArray**: Concatenation of the two lists.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>log2</name>
+      <description>Calculates the logarithm in base 2 of the number **number**.</description>
+      <params>- **number** A number in the range ]0; +&#8734;[.</params>
+      <returns>- **log2**
+  - If **number** > 0, the base 2 logarithm of **number**.
+  - If **number** <= 0, returns `NaN`.</returns>
+      <notes />
+      <examples>`log2(1) // 0.0`
+`log2(10) // 3.3219280948873626`
+`log2(16) // 4.0`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getCellToUseChipOnCell</name>
+      <description>Determines a cell where your entity can use the **chip** chip on the **cell** cell.
+The returned cell is not necessarily the closest.
+If no cell is possible, the function returns `-1`.</description>
+      <params>- **chip**: The chip that the entity wants to be able to use.
+- **cell**: The target cell.
+- **ignoredCells**: Table of cells to ignore. By default an empty array.</params>
+      <returns>- **cell**: The cell where the chip can be used.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getName</name>
+      <description>Returns the name of the entity with id <b>entity</b>.*Example*: greeting the opponent:
+```
+var enemy = getNearestEnemy()
+say("Hi " + getName(enemy) + "!")
+```</description>
+      <params>- **entity**: The id of the entity whose name will be returned.</params>
+      <returns>- **name**: The name of the entity <b>entity</b>.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>toDegrees</name>
+      <description>Converts the angle from radians to degrees.</description>
+      <params>- **radians** Value in radians</params>
+      <returns>- **degrees** Angle in degrees.</returns>
+      <notes />
+      <examples>`toDegrees(0) // 0`
+`toDegrees(PI/4) // 45`
+`toDegrees(PI / 3) // 60`
+`toDegrees(PI / 2) // 90`
+`toDegrees(PI) // 180`
+`toDegrees(2 * PI) // 360`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getNearestEnemy</name>
+      <description>Returns the closest enemy entity to your entity.</description>
+      <params />
+      <returns>- **nearestEnemy**: The id of the nearest enemy entity.
+    - `-1` if you have no enemy
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>useChipOnCell</name>
+      <description>Use the **chip** chip on the **cell** cell.</description>
+      <params>- **chip**: Chip to use.
+- **cell**: Target cell.</params>
+      <returns>- **result**: The return values of useChipOnCell are:
+	- [[USE_CRITICAL]], on critical hit
+	- [[USE_SUCCESS]], if successful
+	- [[USE_FAILED]], on failure
+	- [[USE_INVALID_TARGET]], if the target does not exist
+	- [[USE_NOT_ENOUGH_TP]], if your entity doesn't have enough TP
+	- [[USE_INVALID_COOLDOWN]], if the chip is not usable yet
+	- [[USE_INVALID_POSITION]], if range is bad or line of sight is not clear</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getCellDistance</name>
+      <description>Returns the distance between two cells **cell1** and **cell2**.The returned distance is expressed in number of cells, and does not take into account the various obstacles between the two cells.To get the distance as the crow flies, see [[getDistance]] and to get the path distance between the two cells avoiding obstacles, see [[getPathLength]].</description>
+      <params>- **cell1**: The id of the starting cell.
+- **cell2**: The id of the arrival cell.</params>
+      <returns>- **distance**
+	- If both cells are valid: The distance between the two cells cell1 and cell2.
+	- If a cell is invalid, `-1`.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapClear</name>
+      <description>Empties the **map** table of all its elements.</description>
+      <params>- **map**: The table to empty.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>isEntity</name>
+      <description>Determines whether the contents of cell **cell** is an entity.*Example* :
+```
+if (isEntity(cell)) {
+	// this cell contains an entity
+}
+```</description>
+      <params>- **cell**: The cell to be tested.</params>
+      <returns>- **isEntity**: `true` if the cell contains an entity, `false` otherwise.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getCellsToUseWeapon</name>
+      <description>Lists all cells that allow your entity to shoot a given **weapon**, targeting given **entity**.
+Be careful, the caster will be in the result if the weapon has an effect on its caster, like [[WEAPON_J_LASER]] for example.</description>
+      <params />
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getCellToUseChip</name>
+      <description>Returns a cell where your entity can use the **chip** chip on the **entity** entity.
+The returned cell is not necessarily the closest.
+If no cell is possible, the function returns `-1`.Example for throwing a [[Rock]]:
+```
+var cell = getCellToUseChip(CHIP_ROCK, enemy)
+moveTowardCell(cell)
+useChip(CHIP_ROCK, enemy)
+```</description>
+      <params>- **chip**: The chip that the entity wants to be able to use.
+- **entity**: The target entity.
+- **ignoredCells**: Table of cells to ignore. By default an empty array.</params>
+      <returns>- **cell**: The cell where the chip can be used.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getWeaponTargets</name>
+      <description>Returns the entities that will be affected if the **weapon** is used on the **cell**.
+Note that the launcher will be part of the result if the weapon has an effect on its launcher, like the [[WEAPON_J_LASER]] for example.</description>
+      <params />
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>moveAwayFrom</name>
+      <description>Moves your entity away from another **entity**, using maximum **mp** movement points.</description>
+      <params>- **entity**: The entity your entity should move away from.
+- **mp**: The maximum number of MP to use. By default, no limit.</params>
+      <returns>- **mp**: The number of movement points used.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapFill</name>
+      <description>Replaces all values in the **map** table with the value **value**.</description>
+      <params>- **map**: The table.
+- **value**: The replacement value.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>setDifference</name>
+      <description>Returns the difference between sets **set1** and **set2**, i.e. all elements of **set1** that are not in **set2**.</description>
+      <params>- **set1**: The first set.
+- **set2** : The second set.</params>
+      <returns>- **difference** : The difference set `set1 - set2`.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapSome</name>
+      <description>Returns `true` if the **callback** predicate applied to at least one element of the **map** table returns `true`, `false` otherwise.</description>
+      <params>- **map**: The table.
+- **callback**: The predicate.</params>
+      <returns>- **some**: `true` if the predicate **callback** returned `true` for at least one element, `false` otherwise.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapPutAll</name>
+      <description>Adds or replaces all values from the **elements** table to the **map** table.</description>
+      <params>- **map**: The table.
+- **elements**: The table whose elements will be added.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getTurn</name>
+      <description>Returns the current combat turn.
+The maximum number of turns is [[MAX_TURNS]].*Example*: getting boosted on turn 2:
+```
+if (getTurn() == 2) {
+    useChip(CHIP_MOTIVATION)
+    useChip(CHIP_PROTEIN)
+}
+```</description>
+      <params />
+      <returns>- **turn**: The current combat turn.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>count</name>
+      <description>Calculates the number of elements contained in the array **array**.<br></description>
+      <params>  - **array**: Array whose size we want to calculate.</params>
+      <returns>  - **numberOfElements**: (integer) Size of the array.
+    - If the array is empty, returns `0`.</returns>
+      <notes />
+      <examples>```
+var array = [10, 15.5, 16, 18, 13]
+debug("count = " + count(array)) // Displays 5
+```</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getTimestamp</name>
+      <description>Returns the timestamp of the fight, equal to the number of seconds since January 1, 1970.</description>
+      <params />
+      <returns>- **timestamp**: The timestamp of the fight.</returns>
+      <notes />
+      <examples>```leekscript
+var timestamp = getTimestamp()
+debug("Fight timestamp: " + timestamp)
+```</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>rand</name>
+      <description>Returns a real random number, between 0 (inclusive) and 1 (exclusive), following a uniform distribution.</description>
+      <params />
+      <returns>- **number** A random number in the range [0; 1[.</returns>
+      <notes />
+      <examples>`rand() // 0.0315627088835804`
+`rand() // 0.2746200479206138`
+`rand() // 0.3811411548987587`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapRemove</name>
+      <description>Deletes the **key** from the **map** table.</description>
+      <params>- **map**: The table.
+- **key**: The key to delete</params>
+      <returns>- **element**: The value previously associated with the key **key**.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getPower</name>
+      <description>Returns the power of the entity with id **entity**.</description>
+      <params>- **entity**: The entity whose power will be returned.</params>
+      <returns>- **power**: The power of the entity **entity**.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>bitCount</name>
+      <description>Returns the number of bits at 1 in the number **x**.</description>
+      <params>- **x**: The number whose number of bits will be returned.</params>
+      <returns>- **bits**: The number of bits of **x**.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>min</name>
+      <description>Returns the smallest value between the two numbers **a** and **b**.</description>
+      <params>- **a** A number.
+- **b** A number.</params>
+      <returns>- **min** The smallest number between a and b.</returns>
+      <notes />
+      <examples>`min(2, 5) // 2`
+`min(-2, -5) // -5`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getMaxRAM</name>
+      <description>Returns the usable RAM limit of your AI. RAM is consumed by creating lists, tables and objects.The current limit is 200 megabytes or 25,000,000 array items.</description>
+      <params />
+      <returns>- **ram**: The RAM limit.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapMin</name>
+      <description>Returns the minimum value of the **map** table. If the table is empty, return `null`.</description>
+      <params>- **map**: The table.</params>
+      <returns>- **min**: The minimum value.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapFilter</name>
+      <description>Returns a new table containing all values from the source table **map** for which the applied **callback** predicate returned *true*.</description>
+      <params>- **map**: The table.
+- **callback**: The predicate.</params>
+      <returns>- **filtered**: The filtered table.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapContains</name>
+      <description>Returns *true* if the table **map** contains the value **value**, *false* otherwise.</description>
+      <params>- **map**: The table.
+- **value**: The value to look for.</params>
+      <returns>- **contains**: *true* if the value is found, *false* otherwise.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>arrayRandom</name>
+      <description>Returns a list of random **count** elements from the **array** list, with no duplicates.</description>
+      <params>- **array**: The list.- **count**: The number of elements to return.</params>
+      <returns>- **random**: A list containing **count** random elements of **array**.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapSearch</name>
+      <description>Returns the key associated with a **value** in the **map** table.</description>
+      <params>- **map**: The table.
+- **value**: The value to look for.</params>
+      <returns>- **key**: The key associated with the value, `null` if none is found.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>realBits</name>
+      <description>Returns the raw bits of the number **x** in an integer.</description>
+      <params>- **x**: The number</params>
+      <returns>- **bits**: The bits of **x**.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapSize</name>
+      <description>Returns the number of keys in the **map** table.</description>
+      <params>- **map**: The table.</params>
+      <returns>- **size**: The size of **map**.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>codePointAt</name>
+      <description>Returns the unicode codepoint (32 bits, integer) located at position **index** (or 0 by default) in the string **string**.</description>
+      <params>- **string**: The string.
+- **index**: The codepoint index, by default `0`.</params>
+      <returns>- **codePoint**: The unicode codepoint.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapMap</name>
+      <description>Returns a new table containing the values returned by the **callback** function applied to each element of the **map** table.</description>
+      <params>- **map**: The table.</params>
+      <returns>- **newMap**: The new map.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapPut</name>
+      <description>Adds or replaces the value associated with the key **key** by the value **value** in the table **map**.</description>
+      <params>- **map**: The table.
+- **key**: The key.
+- **value**: The value.</params>
+      <returns>- **value**: The value previously associated with **key**, or `null` if there was none.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapReplaceAll</name>
+      <description>Replaces all values from table **map1** with values from table **map2** only if the value is already associated with a key.</description>
+      <params>- **map1**: The first table.
+- **map2**: The second table.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapValues</name>
+      <description>Returns a list containing all values from the **map** table.</description>
+      <params>- **map**: The table.</params>
+      <returns>- **values**: The values of the **map** table.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapRemoveAll</name>
+      <description>Removes all values equal to **value** in the **map** table.</description>
+      <params>- **map**: The table.
+- **value**: The value to delete.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>hexString</name>
+      <description>Returns a character string containing the number **x** in hexadecimal format.</description>
+      <params>- **x**: The number to format in hexadecimal.</params>
+      <returns>- **string**: The hexadecimal string representing the number **x**.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>rotateLeft</name>
+      <description>Returns a new number with the bits of **x** shifted by **s** from the left (resets the bits from the right).</description>
+      <params>- **x**: The number to rotate.
+- **s**: The size of the rotation.</params>
+      <returns>- **rotated**: The rotated number.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>arrayClear</name>
+      <description>Empties the **array** list of all its elements.</description>
+      <params>- **array**: The list to empty.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>toRadians</name>
+      <description>Converts angle **degrees** to radians.</description>
+      <params>- **degrees** Value in degrees.</params>
+      <returns>- **radians** Angle in radians.</returns>
+      <notes />
+      <examples>`toRadians(0) // 0`
+`toRadians(45) // PI / 4`
+`toRadians(60) // PI / 3`
+`toRadians(90) // PI / 2`
+`toRadians(180) // PI`
+`toRadians(360) // 2 * PI`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getAlliedTurret</name>
+      <description>Returns your team's turret id or `null` if it doesn't exist.</description>
+      <params />
+      <returns>- **alliedTurret**: The id of your team's turret.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getTime</name>
+      <description>Returns the start time of the fight, in the format `HH:mm:ss`.</description>
+      <params />
+      <returns> - **time**: The time of the fight.
+ 
+</returns>
+      <notes />
+      <examples>```leekscript
+var time = getTime()
+debug("Combat time: " + time)
+```
+ 
+</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapMerge</name>
+      <description>Returns a table containing all values from the **map1** and **map2** tables.</description>
+      <params>- **map1**: The first table.
+- **map2**: The second table.</params>
+      <returns>- **merged**: The merging of the two tables.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getEntityOnCell</name>
+      <description>Returns the entity that is on cell <b>cell</b>.</description>
+      <params>- **cell**: The cell from which we want to retrieve the entity.</params>
+      <returns>- **entity**: The id of the entity located on the cell.
+- `-1` if the cell has no entity.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>getFightType</name>
+      <description>Returns the current combat type.</description>
+      <params />
+      <returns>- **fightType**: Depending on the type of fight:
+	- Solo fight ([[FIGHT_TYPE_SOLO]])
+	- Farmer fight ([[FIGHT_TYPE_FARMER]])
+	- Team fight ([[FIGHT_TYPE_TEAM]])
+	- Battle Royale ([[FIGHT_TYPE_BATTLE_ROYALE]])
+	- Boss fight ([[FIGHT_TYPE_BOSS]])
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>cbrt</name>
+      <description>Calculates the cube root of **number**.</description>
+      <params>- **number** Number whose cube root we want to calculate.</params>
+      <returns>- **result** Cube root of number.</returns>
+      <notes />
+      <examples>`cbrt(1) // 1`
+`cbrt(8) // 2`
+`cbrt(27) // 3`
+`cbrt(125) // 5`
+</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapReplace</name>
+      <description>Replaces the value associated with the key **key** by the value **value** in the table **map** only if a value is already associated with **key**.</description>
+      <params>- **map**: The table.
+- **key**: The key.
+- **value**: The value.</params>
+      <returns>- **value**: The value previously associated with **key**.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapIter</name>
+      <description>Applies the **callback** function on all values of the **map** table.</description>
+      <params>- **map**: The table.
+- **callback**: The function to call.</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>isNaN</name>
+      <description>Returns *true* if the number **x** is a NaN (Not a Number) value in its float representation, *false* otherwise.</description>
+      <params>- **x**: The number to check.</params>
+      <returns>- **nan**: *true* if the number **x** is a NaN value, *false* otherwise.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>binString</name>
+      <description>Returns a string containing the number **x** in binary format.</description>
+      <params>- **x**: The number to format in binary.</params>
+      <returns>- **string**: The binary string representing the number **x**.</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>assocSort</name>
+      <description>*This function is removed in LS4+ due to the list/table separation (array/map).*Sorts the array <b>array</b> preserving the key:value association according to the order <b>order</b>.</description>
+      <params>- **array**: The array to be sorted.
+- **order**: The sort order: [SORT_ASC](https://leekwars.com/help/documentation/SORT_ASC) or [SORT_DESC](https://leekwars.com/help/documentation/SORT_DESC) .
+</params>
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>mapContainsKey</name>
+      <description>Returns `true` if the table **map** contains the key **key**, `false` otherwise.</description>
+      <params>- **map**: The table.
+- **key**: The key to search for.</params>
+      <returns>- **contains**: `true` if the table **map** contains the key **key**, `false` otherwise.
+</returns>
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>PI</name>
+      <description>The ratio of the circumference of a circle to its diameter.</description>
+      <params />
+      <returns />
+      <notes />
+      <examples>`PI // 3.14159265359`
+`cos(PI) // -1`
+`sin(PI / 6) // 0.5`
+`tan(PI/4) // 1`</examples>
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>EFFECT_DAMAGE</name>
+      <description>Removes hit points from an entity:
+- Amplified by the [[force]].
+- Interacts with shields and vulnerabilities ([[EFFECT_ABSOLUTE_SHIELD]], [[EFFECT_RELATIVE_SHIELD]], [[EFFECT_VULNERABILITY]], [[EFFECT_ABSOLUTE_VULNERABILITY]])
+- [[Lifesteal]] (except caster)
+- [[Rifletti i danni]] ([[EFFECT_DAMAGE_RETURN]]) (except caster)
+- Reduces the maximum hit points by **5%** of the amount of hit points removed ([[erosion]]).</description>
+      <params />
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>MAX_TURNS</name>
+      <description>Maximum number of rounds in a fight: **64**</description>
+      <params />
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>OPERATIONS_LIMIT</name>
+      <description>imit of operations per turn. If the entity exceeds this limit, it crashes and passes its turn.Currently, the limit is **20,000,000** operations per turn.The operations are shared between the leek and its bulbs.</description>
+      <params />
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>FIGHT_TYPE_BATTLE_ROYALE</name>
+      <description>Constant that represents a battle of [[Battle Royale]]: battle of 10 leeks each for himself.There may be Battle Royales:
+ - vegetable garden: context [[FIGHT_CONTEXT_GARDEN]]
+ - and automatic: context [[FIGHT_CONTEXT_TOURNAMENT]].
+</description>
+      <params />
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>SUMMON_LIMIT</name>
+      <description>Maximum number of summons per team: 8.
+</description>
+      <params />
+      <returns />
+      <notes />
+      <examples />
+   </StandardFunctions>
+   <StandardFunctions>
+      <name>E</name>
+      <description>Euler's number.</description>
+      <params />
+      <returns />
+      <notes />
+      <examples>`E//2.71828188459`
+`log(E) // 1`
+`E^12 //= exp(12) = 162754.791419`</examples>
+   </StandardFunctions>
+</StandardFunctionsDoc>

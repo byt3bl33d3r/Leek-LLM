@@ -1,0 +1,1471 @@
+<LeekScriptDocs>
+   <leekscript_4># LeekScript 4
+
+> LeekScript
+
+LeekScript 4 is the fourth version of the [[LeekScript]] language, released on July 1, 2022. This page summarizes all the new features brought by this version.
+
+
+
+## Array and Map separated
+
+In LeekScript versions 1 to 3, arrays were both lists (`[1, 2, 3, 4]`) and associative tables (`['a': 5, 'b': 12]`) . As of LeekScript 4, the two aspects are separated into two different types: lists (`Array`) and tables (`Map`). These two new types are more efficient than the old common type, and give greater clarity in use.
+
+An `Array` list is a continuous sequence of elements, starting at index 0. They are equivalent to `ArrayList` of Java or `vector` of C++. You can quickly access an element with its position, insert/delete an element at any position.
+
+- Unlike old arrays, it is no longer possible to create an element on the fly like this: `array[10] = v`.
+- All LS and combat functions return this new type of list (except getRegisters which returns a `Map`).
+- The new `Array` type uses all the functions of the "List" category of the documentation.
+- Access outside the list returns null and a warning.
+
+A `Map` table is an object that relates a key to a value. They are equivalent to `HashMap` of Java or `unordered\_map` of C++, the pairs of (key, value) are not ordered. Keys can be of any type: number (integer or real), character string, object, etc. We can quickly retrieve a value associated with a given key. This new type replaces the "associative" aspect of the old arrays
+
+- The new type `Map` uses all the functions of the "Table" category of the documentation, prefixed by "map".
+- To create an empty table, two syntaxes are possible:
+ - `[:]`
+ - `new Map()`
+ 
+## New functions for lists
+
+- `arraySome(list, predicate)`: returns `true` if predicate returns `true` for at least one element of the list.
+- `arrayEvery(list, predicate)`: returns `true` if predicate returns `true` for all elements of the list.
+- `removeAll(list, element)`: removes all "element" elements from the list.
+- `arrayFrequencies(list)`: returns a table associating (element => quantity).
+- `arrayChunk(list, size)`: returns a list containing sub-lists of size N.
+- `arrayUnique(list)`: returns a new array without duplicates.
+- `arrayRandom(list, n)`: returns a list of N random elements.
+
+## RAM limit
+
+The new arrays and maps being much more efficient and light in operations, it was necessary to reestablish a limit at the level of the RAM (working memory of the program). Indeed, with very little operation it is possible to fill gigabytes of RAM easily.
+
+The RAM limit is set at 60MB for each AI (entity + summons) per fight, which corresponds to 7,500,000 list, table or object items. This limit is effective in LS4 because the old tables do not use this RAM system, they do not need it because their operation consumption is large enough.
+
+The `getMaxRAM()` and `getUsedRAM()` functions are added to monitor its RAM consumption in real time.
+
+## 64-bit integers instead of 32
+
+Integers are now represented on 64 bits instead of 32 before (in all versions of LeekScript). The increase allows to do calculations with larger numbers and allows to have more bits for binary manipulations.
+
+## Arrow functions
+
+![](/image/changelog/230_arrow.png)
+
+The "Arrow function" syntax is now available to write anonymous functions more simply:
+
+```
+=> 12 // No parameter, returns 12
+x, y => x + y // Two parameters, return their sum
+x, y -> x + y // Thin arrow
+x => y => x + y // Takes an x parameter and returns a function that takes a y parameter and returns the sum of x and y.
+```
+
+## Default parameters
+
+In constructors, methods and static methods, it is now possible to use default values for each parameter:
+
+![](/image/changelog/230_default.png)
+
+## List range access and negative indices
+
+Two new possibilities are added to access lists:
+
+- Access to the last elements: `list[-1]` returns the last, `list[-2]` returns the penultimate.
+- Range access: `list[10:20]` returns a new list containing the elements from position 10 to 20 (exclusive).
+- Accessing a range with increment: `list[10:20:3]` returns the elements at position 10, 13, 16, 19.
+- Negative increment: `list[20:10:-3]` returns the elements at position 20, 17, 14, 11
+- The `arraySlice(start, end, increment)` function which replaces `subArray` has the same behavior as the `list[start:end:increment]` syntax.
+
+## Operator == deprecated and replaced by ===
+
+The old `==` operator, which did some exotic equality checking like `1 == true`. The potentially confusing `12 == [12]` is removed in LS4, and replaced with ===, which performs a strict equality comparison. You must therefore write `==` instead of `===`.
+
+Be careful when replacing some of your == by ===, it is possible that the `==` made a comparison with numbers and/or booleans and/or `null`.
+
+## Hexadecimal and Binary Numbers
+
+It is possible to write numbers in hexadecimal and binary form, in addition to decimal:
+
+`var a=0xabcdef // 11259375`
+`var b=0b110110101 // 437`
+
+![](/image/changelog/230_64_bit.png)
+
+## Number separators "\_"
+
+It is possible to write long numeric constants with underscore "\_" separators, example:
+
+`var one\_billion = 1\_000\_000\_000`
+
+## Order of callback arguments
+
+In the arrayMap, arrayFilter, arrayIter, arrayPartition, arrayFoldLeft/Right functions, the callback functions take the arguments (value, key/index) always in this order. The order was (key, value) and (value) previously.
+
+Moreover, all these functions take as 3rd parameter the array being traversed.
+
+It is therefore possible to pass any number of arguments to a callback, the missing values being replaced by `null`.
+
+## Feature Changes
+
+- The `end` position of the `subArray` function is now exclusive to LS4+.
+- The `removeElement` function no longer leaves holes in LS4+.
+- The `arrayFlatten` function no longer copies elements.
+- The `assocReverse`, `assocSort`, `keySort` functions are removed and `removeKey` is replaced by `mapRemove` in LS4+.
+- Fixed `arrayMin` cost.
+- `randFloat` is renamed to `randReal`.
+- codePointAt(string, [index]): returns the unicode codepoint (integer) located at position index (or 0) in the string.
+
+## Basic argument type checking
+
+All functions in the game have been precisely typed, which allows errors to be added when a parameter is incompatible with the expected type of a function.
+
+Since type inference is still very basic and destined to evolve, these type errors are for the moment warnings.
+
+![](/image/changelog/230_types.png)
+
+## Priority of a = b = c
+
+It is now possible to write `a = b = c` without parentheses.
+
+## Duplicate key in table declaration
+
+When declaring a table, an error (LS4+) or a warning is returned if a key appears twice:
+
+![](/image/changelog/230_map_keys.png)
+
+## Complexity of functions in the documentation
+
+The complexity of each function is displayed in the documentation.
+
+## JSON encoding/decoding of objects and new lists
+
+The JSON functions `jsonEncode` and `jsonDecode` now handle new lists and objects:
+
+`jsonDecode("[1, 2, 3]")`: returns a new list
+`jsonEncode("{a: 2, b: 4}")` / `jsonDecode("{a:2,b:4}")`: works with objects.
+
+## Functions on numbers
+
+- `bitCount(x)`: returns the number of bits at `1` in the number.
+- `trailingZeros(x)`: returns the number of bits at `0` at the end of the number.
+- `leadingZeros(x)`: returns the number of bits at `0` at the beginning of the number.
+- `bitReverse(x)`: returns a new number with all bits reversed from left to right.
+- `byteReverse(x)`: returns a new number with all bytes (group of 8 bits) reversed from left to right.
+- `rotateLeft(x, y)`: returns a new number with the bits shifted from `y` to the left (resets the bits to the right).
+- `rotateRight(x, y)`: returns a new number with the bits shifted from `y` to the right (resets the bits to the left).
+- `hexString(x)`: returns a string representing the number in hexadecimal.
+- `binString(x)`: returns a string representing the number in binary.
+- `realBits(x)`: returns the bits of the number as an integer.
+- bitsToReal(x)`: returns a real number from bits stored in an integer.
+- `isFinite(x)`: determines if the number x is finite.
+- `isInfinite(x)`: determines if the number x is infinite.
+- `isNaN(x)`: determines if the number x is a NaN value.
+- `isPermutation(x, y)`: returns `true` if the number `x` is a permutation of the number `y`.
+
+## Constants for numbers
+
+![](/image/changelog/230_const.png)
+
+- `NaN`: Constant representing a NaN value. We have X == NaN equal `false` all the time (hence the isNaN function).
+- `Infinity`: Constant representing infinity. To have its opposite, use `-Infinity`.
+- `Integer.MIN\_VALUE` and `Integer.MAX\_VALUE`: minimum integer (-2^64 = 9223372036854775808) and maximum (2^63-1 = 9223372036854775807)
+- `Real.MIN\_VALUE` and `Real.MAX\_VALUE`: real minimum (2.2250738585072014e-308) and maximum (1.7976931348623157e308)
+
+## `final` keyword for class fields
+
+It is possible to use the `final` keyword in front of a class field to indicate that this field is no longer assignable after the construction of the object. An assignment is the use of the `=` operator, it is always possible to modify the content of the field if it is of the object or list type, for example. For an array-type final field, you must therefore use `arrayClear(object.field)` instead of `object.field = []`.
+
+![](/image/changelog/230_final.png)
+
+## Integer division operators `\` and `\=`
+
+The `\` and `\=` operators are added to perform integer or Euclidean division, for example:
+```
+10 \ 3 // 3 (integer)
+```
+Note that both numbers are converted to integers if they are not already integers:
+```
+10.5 \ 3.8 // 3 (integer)
+```
+
+## Miscellaneous fixes and improvements
+
+- Fixed a bug when a method parameter is captured.
+- Static initialization is done on turn 1 of each entity, instead of before the fight. It is therefore no longer possible to use 20M operations before combat and this fixes a combat bug when operations are exceeded during this initialization.
+- Error localization is more precise.
+- `debug([10, "20", "hi"])` returns `[10, "20", "hi"]` instead of `[10, 20, hi]`.
+- Fixed a bug of using `break` and `continue` inside a function and outside the loop.
+- It is forbidden to redefine a function from the LS4.
+- Fixed bugs on static methods used with `A['m']` and `var m = A.m`.
+- Added an error if a method is duplicated in a class.
+
+</leekscript_4>
+   <cheet_sheet># LeekScript Cheat Sheet
+> LeekScript
+
+> This is a summary page of how to use LeekScript, geared towards advanced players. If you are a beginner, see the [[Tutorial]].
+
+LeekScript is a \*\*imperative\*\*, \*\*functional\*\*, \*\*object-oriented\*\* and \*\*lowly typed\*\* language inspired by JavaScript, PHP and Java. In [[Leek Wars]], it is executed on the server to generate the fights. Each instruction consumes operations and the limit is set to 20 million operations per fight round.
+
+#### Variables
+```
+var a = 12 // local variable
+global b = 'hello' // persistent global between rounds
+```
+
+#### Conditions and loops
+```
+if (a > 12 and a < 20) {
+ for (var i = 0; i < 10; ++i) { ... }
+} else if (a !== null)
+ while (a > 0) { a-- }
+```
+
+#### Arrays
+
+```
+var a = [1, 2, 3, 4]
+a[2] = 10
+var b = [ [1], [2], [3] ] // two dimensions
+for (var value in a) { ... }
+for (var index : var value in a) { ... }
+```
+ 
+Main functions : [[count]], [[push]], [[pop]], [[insert]], [[inArray]], [[arrayMap]], [[sort]] etc.
+ 
+#### Associative arrays
+```
+var a = [ 'cle1': true, 'cle2': false ]
+a['cle3'] = 100
+removeKey(a, 'cle1')
+for (var cle : var value in a) { ... }
+```
+
+#### Functions
+```
+function computeDamage(weapon, strength, target) { // Function with name
+ return getDamage(weapon) \* strength - getAbsoluteShield(target)
+}
+arrayMap([1, 2, 3], function(v) { // Anonymous function
+ return v \*\* 2
+})
+```
+
+#### Classes
+```
+class Cell {
+ private static SIZE = 17 // static field
+ public x // field
+ public y
+ constructor(x, y) { ... } // constructor
+ distance(cell) { ... } // method
+}
+var cell = new Cell(5, -7)
+cell.distance(my\_cell)
+```
+More information about [[Objects and Classes]].
+
+#### Debugging your code
+```
+debug("Value of my variable = " + myVariable) // Display in personal logs
+pause() // Pause the fight
+setRegister('data', myData) // Save data between fights
+```
+
+#### Use multiple files
+```
+include('other.leek')
+include('../folder/functions.leek')
+```
+</cheet_sheet>
+   <variables># Variables
+> Tutorial
+
+
+
+Variables are a fundamental point in all programming languages. They are locations for storing values in memory in order to reuse them.
+
+Variables can contain several types of values:
+- Number: `12`, `5.59`
+- Character string: `"hello"`
+- Boolean (true or false): `true`, `false`
+- List, Table (we will come back to this a little later)
+- `null`: the absence of a value
+
+## Declare a variable
+
+To use a variable, it must be declared beforehand. This declaration is made using the `var` keyword as follows:
+```
+// We declare the "enemy" variable
+var enemy
+```
+
+It is also possible to assign a value to your variable in the following way:
+```
+// We declare the enemy variable and assign it the value "getNearestEnemy()"
+var enemy = getNearestEnemy()
+```
+
+## Use a variable
+
+To use the value stored in a variable, we simply write its name:
+
+```leekscript
+// We advance towards the enemy
+moveToward(enemy)
+
+// We're trying to shoot him!
+useWeapon(enemy)
+```
+
+In this first AI, we declare on line \*\*5\*\* the variable `enemy`, which we initialize with the value `getNearestEnemy()`, which corresponds to the nearest enemy.
+
+We then use this `enemy` variable on lines \*\*8\*\* and \*\*11\*\* by supplying its value to the `moveToward` and `useWeapon` functions.
+
+
+## Global Variables
+
+The variables declared with the var keyword have a lifespan of \*\*the turn of your leek\*\*, there is a second type of variable which retains their value during \*\*the entire duration of the fight\*\*: global variables. To declare a global variable, just use the `global` keyword instead of `var`:
+```
+// Declaration of the global variable foo, value 42
+global foo = 42
+```
+Variables and global variables can be used in the same way in the code, in the rest of the tutorial we will mainly use normal variables (sometimes called local).
+
+
+## &#10067; Quiz
+
+
+##### What is a variable?
+
+
+* A value that changes often
+* A place to store a value
+
+
+##### What code is used to declare a `foo` variable?
+
+
+* `var foo = 12`
+* `var foo`
+* `foo`
+* `variable foo`
+
+
+
+
+## Full AI
+
+
+
+```leekscript
+// We take the gun
+setWeapon(WEAPON\_PISTOL) // Attention: costs 1 PT
+
+// We get the closest enemy
+var enemy = getNearestEnemy()
+
+// We advance towards the enemy
+moveToward(enemy)
+
+// We're trying to shoot him!
+useWeapon(enemy)
+```
+
+</variables>
+   <standard_functions># Standard functions
+> Tutorial
+
+
+
+A \*\*function\*\* is used to perform a task such as a calculation or an action. It takes arguments as input, executes instructions and can return a result.
+
+In our current code, we use the following functions:
+ - `setWeapon(weapon)`: it has \*\*1\*\* parameter, and returns nothing.
+ - `getNearestEnemy() &#8594; enemy`: it has \*\*0\*\* parameters, and returns the nearest enemy.
+ - `moveToward(target) &#8594; mp`: it has \*\*1\*\* parameter, and returns the number of [[Movement Points|MP]] used.
+ - `useWeapon(target) &#8594; success`: it has \*\*1\*\* parameter, uses its weapon on someone and returns the result of the attack.
+
+## The documentation
+
+There are more than 300 standard functions in LeekScript, they are grouped together on one page: \*\*the documentation\*\*. To access it, go to the Help tab, then click on Documentation.
+
+![](/image/feature/documentation.webp)
+  
+  
+
+
+
+It is possible to open the documentation from any page with the shortcut **Ctrl + Alt + H**. Try it now!
+
+
+
+
+
+The description of a function provides you with the following information:
+- A description of the behavior of the function
+- The list of its parameters, their type and their description
+- The return type of the function and a description of this return
+- Examples, notes and related functions.
+
+## Using chips
+
+Now that we are familiar with the standard functions, we are going to use a little more in our AI!
+
+A [[Chips|chip]] is a battle-ready power that can be used to heal, protect, boost, attack, and more. To use it, you must first equip it on your leek:
+
+![](/image/feature/leek_page.webp)
+  
+  
+
+
+Then, use the `useChip(chip)` function to launch a chip. Unlike weapons, there is no need to equip them first.
+
+Purchase the [[Bandage]], [[Motivation]], [[Protein]], and [[Helmet]] chips and equip them on your leek.
+
+We will use them all at the start of our turn, adding the following code after equipping our weapon:
+```
+useChip(CHIP\_MOTIVATION)
+useChip(CHIP\_PROTEIN)
+useChip(CHIP\_HELMET)
+useChip(CHIP\_BANDAGE)
+```
+
+`CHIP\_MOTIVATION`, `CHIP\_PROTEIN` are, like `WEAPON\_PISTOL`, \*\*constants\*\* representing the chip or the weapon which one wishes to use. Predefined value constants that are listed in the documentation as functions.
+
+## &#10067; Quiz
+
+
+##### What can a function do?
+
+
+* Calculate and return a value
+* Perform an action or instructions
+* Do not return a value
+* Take multiple parameters
+
+
+
+
+## Full AI
+
+
+
+```leekscript
+// We take the gun
+setWeapon(WEAPON\_PISTOL) // Attention: costs 1 PT
+
+// We get the closest enemy
+var enemy = getNearestEnemy()
+
+// We advance towards the enemy
+moveToward(enemy)
+
+// Boosts, shield and healing
+useChip(CHIP\_MOTIVATION)
+useChip(CHIP\_PROTEIN)
+useChip(CHIP\_HELMET)
+useChip(CHIP\_BANDAGE)
+
+// We're trying to shoot him!
+useWeapon(enemy)
+```
+
+</standard_functions>
+   <conditions># Conditions
+> Tutorial
+
+
+
+We saw in the previous chapter how to boost yourself, give yourself a shield and heal yourself. You have surely noticed that boosting and protecting yourself is always useful, but healing yourself is useless when our life is already at its maximum.
+
+To avoid casting a heal and wasting [[Turn Points|TP]] ![](/image/charac/tp.png), we will use \*\*a condition\*\* which is written:
+```leekscript
+if (getLife() < getTotalLife()) {
+ useChip(CHIP\_BANDAGE)
+}
+```
+
+This code will cast the [[Bandage]] only if we are injured, ie when our current life `getLife()` is less `<` than our maximum life `getTotalLife()`.
+
+The structure of a condition is as follows:
+ - The `if` keyword
+ - A condition \*\*in brackets\*\*, here `(getLife() < getTotalLife())`
+ - The body of the condition, \*\*in braces\*\*, here `{ useChip(CHIP\_BANDAGE) }`. It is executed if the condition is true.
+ 
+## if else
+
+It is also possible to write code that will be executed when the condition is false, thanks to the `else` keyword:
+```
+if (getLife() < getTotalLife()) {
+ useChip(CHIP\_BANDAGE)
+} else {
+ useChip(CHIP\_HELMET)
+}
+```
+
+This code will launch the [[Bandage]] if you are injured, otherwise the [[Helmet]].
+
+## &#10067; Quiz
+
+
+##### Which code(s) are valid?
+
+
+* `if getLife() < getTotalLife() {
+ useChip(CHIP_BANDAGE)
+}`
+* `if (getLife() < getTotalLife() {
+ useChip(CHIP_BANDAGE)
+})`
+* `if (getLife() < getTotalLife()) {
+ useChip(CHIP_BANDAGE)
+} else {
+ useChip(CHIP_HELMET)
+}`
+* `if { getLife() < getTotalLife() } {
+ useChip(CHIP_BANDAGE)
+}`
+
+
+
+
+## Full AI
+
+
+
+```leekscript
+// We take the gun
+setWeapon(WEAPON\_PISTOL) // Attention: costs 1 PT
+
+// We get the closest enemy
+var enemy = getNearestEnemy()
+
+// We advance towards the enemy
+moveToward(enemy)
+
+// Boosts, shield and healing
+useChip(CHIP\_MOTIVATION)
+useChip(CHIP\_PROTEIN)
+useChip(CHIP\_HELMET)
+
+// We heal ourselves if our life is less than our max life.
+if (getLife() < getTotalLife()) {
+ useChip(CHIP\_BANDAGE)
+}
+
+// We're trying to shoot him!
+useWeapon(enemy)
+```
+
+</conditions>
+   <booleans_and_null># Booleans and null
+> Tutorial
+
+
+
+You have seen that it is possible to manipulate numbers, but the LeekScript also has special values: null and booleans.
+
+## `null` value
+
+\*\*null\*\* is a value representing an empty, invalid or even an error value, but it is different from the number `0`.
+
+For example, the `getWeapon()` function returns the weapon your leek is holding, or `null` if you don't have a weapon in your hands.
+
+You may have noticed that `setWeapon()` costs 1 [[TP]] per turn. It is possible to limit its use to turn 1 with this condition:
+
+```
+if (getWeapon() == null) {
+ setWeapon(WEAPON\_PISTOL)
+}
+```
+
+## Booleans: `true` and `false`
+
+\*\*Booleans\*\* are two values: `true` and `false`. These are two values that can be used to represent something that can have two states like:
+ - True or false
+ - Enabled or disabled
+ - Yes or no
+ - etc.
+ 
+```
+var a = true
+var b = false
+```
+
+Examples of functions that use booleans:
+ - The function [[chipNeedLos]] for example returns a boolean: `true` if the chip needs a line of sight, `false` otherwise (like the chip [[Spark]]).
+ - The [[isAlive]] function returns `true` if the entity is alive and `false` otherwise.
+
+Example: we check if a chip needs a line of sight:
+```
+if (chipNeedLos(chip) == true) {
+ // the chip needs line of sight
+}
+```
+
+## &#10067; Quiz
+
+
+##### What can `null` be used for?
+
+
+* Representing a lack of information/value
+* Represent the number 0
+* Represent an error
+* Representing a poor quality program
+
+
+##### What are booleans for?
+
+
+* Represent a value with two possible states
+* Represent a very high value
+
+
+
+
+## Full AI
+
+
+
+```leekscript
+// We take the gun if it is not equipped
+if (getWeapon() == null) {
+ setWeapon(WEAPON\_PISTOL)
+}
+
+// We get the closest enemy
+var enemy = getNearestEnemy()
+
+// We advance towards the enemy
+moveToward(enemy)
+
+// Boosts, shield and healing
+useChip(CHIP\_MOTIVATION)
+useChip(CHIP\_PROTEIN)
+useChip(CHIP\_HELMET)
+
+// We heal ourselves if our life is less than our max life.
+if (getLife() < getTotalLife()) {
+ useChip(CHIP\_BANDAGE)
+}
+
+// We're trying to shoot him!
+useWeapon(enemy)
+```
+
+</booleans_and_null>
+   <operators># Operators
+> Tutorial
+
+
+
+## The operators
+
+Operators are used to perform mathematical calculations or data manipulations of all kinds.
+
+Here are the main operators:
+- `+`: Addition of two numbers
+- `-`: Subtraction
+- `\*`: Multiplication
+- `/`: Division
+- `\`: Quotient of Euclidean division
+- `%`: Rest of Euclidean division
+- `==`: Equality between two values
+- `<`, `>`, `<=`, `>=`: Comparisons of two numbers
+- `and`: "And" of two booleans
+- `or`: "Or" of two booleans
+- `=`: Assignment of a variable
+- `+=`, `-=`, `\*=` etc. : Operator + assignment of a variable
+
+For an expression with multiple operators, the operators are applied in left-to-right order, with natural precedence as `\*` takes precedence over `+`.
+
+
+Example with different operators:
+```
+// Declaration of variable a
+var a
+// We perform some calculations:
+a = 2 + 8 // a takes the value 10
+a = 5 - 4 // a takes the value 1
+a = 3 \* 5 // a takes the value 15
+a = 6 / 2 // a takes the value 3
+a = 8 % 3 // a takes the value 2
+
+// We can combine the operators:
+a = 1 + 2 \* 3 // a takes the value 7
+a = 4 / 2 + 1 // a takes the value 3
+```
+
+It is also possible to use parentheses like: `(5 + 7) \* 2`.
+
+## Assignment Operators
+
+In addition to the `=` operator, there are many assignment operators like `+=`, `-=`, `\*=` etc. which combine a calculation and an assignment.
+
+An example with `\*=`, which performs a multiplication and stores the result in the same variable:
+```leekscript
+var x = 5
+x \*= 3
+// x is 15
+```
+
+## More complicated healing condition
+
+Our current healing condition makes us heal as soon as we have lost 1 life point. We can improve it by healing ourselves only if our life is < 75%:
+
+```
+if (getLife() < getTotalLife() \* 0.75) {
+ useChip(CHIP\_CURE)
+}
+```
+
+
+
+To display the value of a variable or an expression in combat actions, use the standard function `debug()`. Example: `debug(getTotalLife() * 0.75)`.
+
+
+
+
+
+## &#10067; Quiz
+
+
+##### What is the result of the code `10 + (5 * 7) - 20 / 4`?
+
+
+* 40
+* 25
+* 18
+* -30
+
+
+##### What is the value of `x` at the end of the code `var x = 10 x *= 2 x += 5 x /= 5`?
+
+
+* 5
+* 15
+* 22
+* 12
+
+
+##### What is the result of the code `(true and false) or (true and true)`?
+
+
+* 1
+* 3
+* true
+* false
+
+
+
+
+## Full AI
+
+
+
+```leekscript
+// We take the gun if it is not equipped
+if (getWeapon() == null) {
+ setWeapon(WEAPON\_PISTOL)
+}
+
+// We get the closest enemy
+var enemy = getNearestEnemy()
+
+// We advance towards the enemy
+moveToward(enemy)
+
+// Boosts, shield and healing
+useChip(CHIP\_MOTIVATION)
+useChip(CHIP\_PROTEIN)
+useChip(CHIP\_HELMET)
+
+// We heal ourselves if our life is less than our max life.
+if (getLife() < getTotalLife() \* 0.75) {
+ useChip(CHIP\_BANDAGE)
+}
+
+// We're trying to shoot him!
+useWeapon(enemy)
+```
+
+</operators>
+   <strings># Strings
+> Tutorial
+
+
+
+## The strings
+
+Character strings are a type of value used to represent text.
+
+A string is written between \*single\* or \*double\* quotes:
+- `var a = "hi"`
+- `var b = 'hello world'`
+
+## String operations
+
+Only one operator is available on the strings, it is \*\*+\*\*, the \*concatenation\* operator, which will "glue" two strings together:
+```
+var a = "Hello"
+var b = "how are you?"
+var c = a + ' ' + b // "Hello, how are you?"
+```
+
+Many functions are available for strings, in the "Strings" part of the documentation, the main ones are:
+```
+length(string) // length of the string
+charAt(string, position) // Get the character at a position
+substring(string, start, length) // Split a "length" substring from a "start" position
+toUpper(string) // Convert all letters to uppercase
+```
+
+Examples of use:
+```
+length("maze") // returns 10
+charAt("pirate", 2) // returns "r"
+substring("galactic", 2, 5) // returns "lacti"
+toUpper("mafia") // returns "MAFIA"
+```
+
+## Salute your opponent
+
+Several standard functions use strings, such as [[getName]], which returns the name of an entity. We'll use it to greet our opponent on turn 1:
+```
+if (getTurn() == 1) {
+ say("Hi " + getName(enemy) + "!")
+}
+```
+The [[say]] function allows your leek to say something, it costs 1 [[Turn Points|TP]] ![](/image/charac/tp.png). As you may have guessed, the sentence that our leek will say will be for an enemy \*Domingo\*: \*"Hi Domingo!"\*. Do not hesitate to personalize it, remaining polite!
+
+## &#10067; Quiz
+
+
+##### What is the result of the code `"10" + 5 + "aa"`?
+
+
+* `"105aa"`
+* `"15aa"`
+* `"10aaaaaaaa"`
+* `"15aaaaa"`
+
+
+##### What is the result of the code `substring("eucalyptus", 4, 3)`?
+
+
+* `"lyp"`
+* `"euc"`
+* `"ptus"`
+* `"euca"`
+
+
+
+
+## Full AI
+
+
+
+```leekscript
+// We take the gun if it is not equipped
+if (getWeapon() == null) {
+ setWeapon(WEAPON\_PISTOL)
+}
+
+// We get the closest enemy
+var enemy = getNearestEnemy()
+
+// We salute our opponent
+if (getTurn() == 1) {
+ say("Hi " + getName(enemy) + "!")
+}
+
+// We advance towards the enemy
+moveToward(enemy)
+
+// Boosts, shield and healing
+useChip(CHIP\_MOTIVATION)
+useChip(CHIP\_PROTEIN)
+useChip(CHIP\_HELMET)
+
+// We heal ourselves if our life is less than our max life.
+if (getLife() < getTotalLife() \* 0.75) {
+ useChip(CHIP\_BANDAGE)
+}
+
+// We're trying to shoot him!
+useWeapon(enemy)
+```
+
+</strings>
+   <loops># Loops
+> Tutorial
+
+
+
+We are now going to look at another type of structure that is just as fundamental as conditions: loops!
+
+A loop allows instructions to be repeated several times. There are several types that we will see in this part.
+
+## `while` loop
+
+The `while` loop has a syntax similar to the `if` loop seen above. It allows an instruction block to be executed as long as a condition is met.
+
+Here is an example :
+```leekscript
+// We declare a counter that we initialize to 0
+var counter = 0
+while (counter < 5) { // While counter is less than 5
+ counter++ // Increase the counter by 1
+ debug("Counter is " + counter)
+}
+```
+
+This code will display in the logs when executed:
+> Counter is worth 1
+Counter is 2
+Counter is 3
+Counter is 4
+Counter is worth 5
+
+## `do while` loop
+
+The `do while` loop is similar to the while loop, except that the condition occurs at the end, so the loop body is always executed at least once:
+
+```
+var x
+do {
+ x = rand() // x is a random number between 0 and 1
+} while (x < 0.8) // repeat until x is greater than 0.8
+
+debug("x: " + x) // displays a number between 0.8 and 1
+```
+
+A possible display of the execution of the program:
+> x: 0.85712
+
+## `for` loop
+
+Another slightly more complex type of loop exists, it looks like a while loop but more condensed. You will see in use that depending on the use case it is more practical to use a for or a while.
+
+The for loop consists of three optional parts:
+- \*\*Initialization\*\*: assigning a starting value to a `counter` variable;
+- \*\*The condition\*\*: as long as it is valid, the loop continues to run;
+- \*\*Incrementation\*\*: increase (or decrease as appropriate) the value of your `counter` variable.
+
+Example of a `for` loop:
+```
+// We make a loop of i = 1 as long as i is less than or equal to 5
+// and we increment i at each turn of the loop
+for (var i = 1; i <= 5; i++) {
+ debug("Counter i is: " + i)
+}
+```
+This code will show in the logs:
+> The counter i is 1
+The counter i is 2
+The counter i is 3
+The counter i is 4
+The counter i is 5
+
+## Attack multiple times in a row
+
+Our leek has between 10 and 13 [[PT]] ![](/image/charac/tp.png) (thanks to [[Motivation]]) and the [[Pistol]] only costs 3 [[PT]], so it can be used \*\*4\*\* times at most.
+
+We use a `for` loop to execute the [[useWeapon]] function 4 times in a row:
+```
+for (var i = 0; i < 4; i++) {
+ useWeapon(enemy)
+}
+```
+Here our variable `i` will have the values `0`, `1`, `2` and `3` so the loop will do \*4\* iterations.
+
+## &#10067; Quiz
+
+
+##### What is a loop for?
+
+
+* Executing statements multiple times
+* Condense your code
+* Speed up part of your code
+* Execute instructions in parallel
+
+
+##### Which code(s) are correct?
+
+
+* `var x = 0
+while (x < 10) {
+ x += 2
+}`
+* `var x = 0
+for (var i = 0; i < 10) {
+ x += 2
+}`
+* `var x = 0
+while {
+ x += 2
+} do (x < 10)`
+* `var x = 0
+for (; x < 10;) {
+ x += 2
+}`
+
+
+
+
+## Full AI
+
+
+
+```leekscript
+// We take the gun if it is not equipped
+if (getWeapon() == null) {
+ setWeapon(WEAPON\_PISTOL)
+}
+
+// We get the closest enemy
+var enemy = getNearestEnemy()
+
+// We salute our opponent
+if (getTurn() == 1) {
+ say("Hi " + getName(enemy) + "!")
+}
+
+// We advance towards the enemy
+moveToward(enemy)
+
+// Boosts, shield and healing
+useChip(CHIP\_MOTIVATION)
+useChip(CHIP\_PROTEIN)
+useChip(CHIP\_HELMET)
+
+// We heal ourselves if our life is less than our max life.
+if (getLife() < getTotalLife() \* 0.75) {
+ useChip(CHIP\_BANDAGE)
+}
+
+// We try to shoot him 4 times!
+for (var i = 0; i < 4; i++) {
+ useWeapon(enemy)
+}
+```
+
+</loops>
+   <lists># Lists
+> Tutorial
+
+
+
+A \*\*list\*\* is used to store several values in a specific order.
+
+## Creating and using a list
+
+You can create a list with the following syntax:
+```
+var list = [1, 2, 3, 4, 5]
+```
+The first position in a list is \*\*position 0\*\*. You access a specific element of the list with:
+```
+list[0] // Get the first element
+list[2] = 10 // We assign the value 10 to the 3rd element
+var a = list[3] + list[4] // we add the 4th and 5th elements in the variable a
+```
+
+Many functions are available for handling lists, in the "Lists" part of the Documentation. The most notable are:
+```
+count(list) // size of the list
+push(list, x) // add an element x at the end
+insert(list, x, position) // add an element x at a position
+remove(list, position) // remove the element at a position
+inArray(list, x) // finds if element x is in the list
+sort(list) // Sort a list
+```
+
+## Iterating over a list with the `for in` loop
+
+You can iterate over each of the values in a list using a simple `for` loop, like this:
+
+```
+var list = [10, 20, 30, 40, 50]
+for (var i = 0; i < count(list); i++) {
+ debug(list[i])
+}
+```
+
+But there is a variant of the `for` loop which makes it possible to iterate over each of the values of a list more simply, the `for in` loop. The following code is equivalent to the previous one but is more concise:
+
+```
+var list = [10, 20, 30, 40, 50]
+for (var element in list) {
+ debug(item)
+}
+```
+
+## Weapon damage rating and finisher condition
+
+Our current AI has a problem that you may have noticed: when the enemy is almost dead, our leek will use its boosts, heals, shields before using its weapon, whereas it could finish the enemy!
+
+To improve this situation at the end of the fight, we will estimate the damage that we can inflict on the enemy to know if we can finish it.
+
+We start by using the [[getWeaponEffects]] function which lists the effects of a weapon:
+```leekscript
+var effects = getWeaponEffects() // list of effects
+var total = 0 // We will count all the damage
+for (var effect in effects) { // iterate over all the effects
+```
+
+An effect is itself a list containing the following 6 elements: `[type, min, max, turns, targets, modifiers]`. The final damage for this effect is calculated:
+
+```leekscript
+if (effect[0] == EFFECT\_DAMAGE) { // if the effect is damage
+ var minDamage = effect[1] // minimum weapon damage
+ var BoostedDamage = minDamage \* (1 + getStrength() / 100) // increased by strength
+ var Finaldamage = Boosteddamage \* (1 - getRelativeShield(enemy) / 100) - getAbsoluteShield(enemy) // reduced by shields
+```
+
+Add the damage to the total:
+```leekscript
+ total += finaldamage
+ } // end of if
+} // end of for loop
+```
+
+We end with a condition: if the total damage is greater than the life of the enemy, we will kill him: we attack! Otherwise, we wait with chips:
+```leekscript
+var totalDamage = total \* (getTP() \ getWeaponCost()) // We multiply by the number of possible uses (PT / cost of the weapon)
+if (totalDamage < getLife(enemy)) {
+ // We don't finish :( heals, boosts, shields
+} else {
+ // We finish ! offensive
+}
+```
+
+> Tip: you can access a range of a list using the `list[2:8]` syntax.
+
+> Tip: you can nest lists: list in a list `[ [1, 2, 3] ]` and access to a list in a list: `liste[0][0]`
+
+## &#10067; Quiz
+
+
+##### What is a list for?
+
+
+* Store multiple values
+* Sort values
+* Execute instructions in parallel
+* Perform multiple calculations
+
+
+##### Which codes are valid?
+
+
+* `var a = [1, 2, 3]
+a[0] + a[2]`
+* `var [a] = [1, 2]`
+* `var[1, 2, 3]`
+* `count([1, 2, 3])`
+* `[ [1, 2], [3, 4], [5, 6] ]`
+* `list[5][10]`
+
+
+
+
+## Full AI
+
+
+
+```leekscript
+// We take the gun if it is not equipped
+if (getWeapon() == null) {
+ setWeapon(WEAPON\_PISTOL)
+}
+
+// We get the closest enemy
+var enemy = getNearestEnemy()
+
+// We salute our opponent
+if (getTurn() == 1) {
+ say("Hi " + getName(enemy) + "!")
+}
+
+// We advance towards the enemy
+moveToward(enemy)
+
+var effects = getWeaponEffects() // list of effects
+var total = 0 // We will count all the damage
+for (var effect in effects) { // iterate over all the effects
+ if (effect[0] == EFFECT\_DAMAGE) { // if the effect is damage
+ var minDamage = effect[1] // minimum weapon damage
+ var BoostedDamage = minDamage \* (1 + getStrength() / 100) // increased by strength
+ var Finaldamage = Boosteddamage \* (1 - getRelativeShield(enemy) / 100) - getAbsoluteShield(enemy) // reduced by shields
+ total += finaldamage
+ }
+}
+var totalDamage = total \* (getTP() \ getWeaponCost()) // We multiply by the number of possible uses (PT / cost of the weapon)
+if (totalDamage < getLife(enemy)) {
+ // We don't finish :( Boosts, shield and healing
+ useChip(CHIP\_MOTIVATION)
+ useChip(CHIP\_PROTEIN)
+ useChip(CHIP\_HELMET)
+
+ // We heal ourselves if our life is less than our max life.
+ if (getLife() < getTotalLife()) {
+ useChip(CHIP\_BANDAGE)
+ }
+}
+
+// We try to shoot him 4 times!
+for (var i = 0; i < 4; i++) {
+ useWeapon(enemy)
+}
+```
+
+
+
+</lists>
+   <create_your_functions># Create your functions
+> Tutorial
+
+
+
+## Create a function
+
+We have already used several standard functions (setWeapon, moveToward, etc.). It is also possible to create your own \*\*personal functions\*\*, with the following syntax:
+```
+function sum(x, y) {
+ return x + y
+}
+```
+- `function` keyword
+- Function name: `sum`
+- List of function parameters, in brackets `(` `x, y` `)`
+- Statement block, in braces `{` `x + y` `}`
+
+The optional `return` keyword is used to return a value to the function. In the previous example, the function takes the parameters `x` and `y` and returns their sum: `x + y`.
+
+
+## Creating a `canFinish(enemy)` function
+
+Our previous code for the "finish" condition of the enemy is quite large and not very reusable, we will put it in a function.
+
+We are going to create a custom `canFinish(enemy)` function, which takes an enemy and returns a boolean indicating whether it can be finished or not.
+
+We copy the finisher code into a function that is written this way:
+
+```leekscript
+function canFinish(enemy) {
+ var effects = getWeaponEffects() // list of effects
+ var total = 0 // We will count all the damage
+ for (var effect in effects) { // iterate over all the effects
+ if (effect[0] == EFFECT\_DAMAGE) { // if the effect is damage
+ var minDamage = effect[1] // minimum weapon damage
+ var BoostedDamage = minDamage \* (1 + getStrength() / 100) // increased by strength
+ var Finaldamage = Boosteddamage \* (1 - getRelativeShield(enemy) / 100) - getAbsoluteShield(enemy) // reduced by shields
+ total += FinalDamage
+ }
+ }
+ var totalDamage = total \* (getTP() \ getWeaponCost()) // We multiply by the number of possible uses (PT / cost of the weapon)
+ return totalDamage >= getLife(enemy)
+}
+```
+
+Now we can use our `canFinish` function in our main code to write it much simpler:
+```leekscript
+// [...]
+
+if (not canFinish(enemy)) {
+ // We don't finish :( Boosts, shield and healing
+ // [...]
+}
+```
+
+
+
+Did you know? Moving the same code multiple times within a function is called **Factorization**.
+
+
+
+
+
+
+## Creating a `getClosestCellToUseWeapon(enemy)` function
+
+You may have seen that to use the [[Machine Gun]] or later the [[Laser]] weapon, you need to be in line with the enemy.
+
+It will therefore be necessary to go to a cell from which you can use your weapon, instead of simply advancing towards the enemy as with the [[Pistol]].
+
+For this there is the standard function [[getCellsToUseWeapon]], which returns all possible cells to use a weapon on a target. We will therefore have to choose one: the closest!
+
+We will therefore create a `getClosestCellToUseWeapon` function and use a `for in` loop to calculate the cell whose distance to us is the shortest:
+
+```leekscript
+function getClosestCellToUseWeapon(enemy) {
+ var closest = null
+ var minDistance = 999
+ for (var cell in getCellsToUseWeapon(enemy)) {
+ var distance = getCellDistance(getCell(), cell)
+ if (distance != null and distance < minDistance) {
+ closest = cell
+ minDistance = distance
+ }
+ }
+ return closest
+}
+```
+
+It is used to replace `moveToward`:
+```leekscript
+// Advance to the nearest usage cell
+var cell = getClosestCellToUseWeapon(enemy)
+moveTowardCell(closest)
+```
+
+If you feel comfortable, you can code functions:
+- `estimateDamage(weapon, enemy)`: calculates the damage that the \*weapon\* weapon will inflict on \*enemy\*.
+- `getBestWeapon(enemy)`: finds among your weapons the one that does the most damage on \*enemy\*
+
+You can also :
+- Check that an ally is not in the zone of use of a weapon: standard function [[getWeaponTargets]].
+- Check that you are not attacking a [[Bulbs|bulb]] instead of an enemy leek: standard function [[getType]].
+
+
+
+To better see the terrain and the cells, do not hesitate to use the tactical mode by pressing **T** in combat.
+
+
+
+
+In the following chapters we will approach more difficult aspects so take the time to play with your functions and the notions that we have seen previously, which are already sufficient to move up the rankings!
+
+## &#10067; Quiz
+
+
+##### Which function that returns the square of a number is correct?
+
+
+* `function square(x) { return x * x }`
+* `function square(x) { x * x }`
+* `function square() { return x * x }`
+* `square(x) function { return x * x }`
+
+
+##### Which function calculates the maximum of a list?
+
+
+* `function maximum(list) {
+ var max = -99999
+ for (var e in list) {
+ if (e > max) {
+ max = e
+ }
+ }
+ return max
+}`
+* `function maximum(list) {
+ var max = 99999
+ for (var e in list) {
+ if (e < maxi) {
+ max = e
+ }
+ }
+ return max
+}`
+* `function maximum(list) {
+ var max = 99999
+ for (var e in list) {
+ if (e > max) {
+ max = e
+ }
+ }
+ return max
+}`
+* `function maximum(list) {
+ var max = -99999
+ for (var e in list) {
+ if (e < maxi) {
+ max = e
+ }
+ }
+ return max
+}`
+
+
+
+
+## Full AI
+
+
+
+```leekscript
+// We take the machine gun if it is not equipped
+if (getWeapon() == null) {
+ setWeapon(WEAPON\_MACHINE\_GUN)
+}
+
+// We get the closest enemy
+var enemy = getNearestEnemy()
+
+// We salute our opponent
+if (getTurn() == 1) {
+ say("Hi " + getName(enemy) + "!")
+}
+
+if (not canFinish(enemy)) {
+ // We don't finish :( Boosts, shield and healing
+ useChip(CHIP\_MOTIVATION)
+ useChip(CHIP\_PROTEIN)
+ useChip(CHIP\_HELMET)
+
+ // We heal ourselves if our life is less than our max life.
+ if (getLife() < getTotalLife()) {
+ useChip(CHIP\_BANDAGE)
+ }
+}
+
+// Advance to the nearest usage cell
+var cell = getClosestCellToUseWeapon(enemy)
+moveTowardCell(cell)
+
+// We try to shoot him 4 times!
+for (var i = 0; i < 4; i++) {
+ useWeapon(enemy)
+}
+
+///////////////
+// Functions //
+///////////////
+
+function canFinish(enemy) {
+ var effects = getWeaponEffects() // list of effects
+ var total = 0 // We will count all the damage
+ for (var effect in effects) { // iterate over all the effects
+ if (effect[0] == EFFECT\_DAMAGE) { // if the effect is damage
+ var minDamage = effect[1] // minimum weapon damage
+ var BoostedDamage = minDamage \* (1 + getStrength() / 100) // increased by strength
+ var Finaldamage = Boosteddamage \* (1 - getRelativeShield(enemy) / 100) - getAbsoluteShield(enemy) // reduced by shields
+ total += FinalDamage \* (getTP() \ getWeaponCost())
+ }
+ }
+ var totalDamage = total \* (getTP() \ getWeaponCost()) // We multiply by the number of possible uses (PT / cost of the weapon)
+ return totalDamage >= getLife(enemy)
+}
+
+function getClosestCellToUseWeapon(enemy) {
+ var closest = null
+ var minDistance = 9999
+ for (var cell in getCellsToUseWeapon(enemy)) {
+ var distance = getCellDistance(getCell(), cell)
+ if (distance != null and distance < minDistance) {
+ closest = cell
+ minDistance = distance
+ }
+ }
+ return closest
+}
+```
+
+</create_your_functions>
+</LeekScriptDocs>
