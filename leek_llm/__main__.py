@@ -1,11 +1,12 @@
 import typer
 import webbrowser
 import pathlib
+from collections import defaultdict
 from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager
 from rich.progress import Progress
 from time import sleep
 from importlib import resources
-from typing import Annotated
+from typing import Annotated, Dict, Any
 from rich import print
 from . import data
 from .api import LeekWars
@@ -45,13 +46,13 @@ def save_ai_code(ai_name: int, code: str):
 
     ez_response = {
         "saved": True,
-        "errors": [
-            {k: [ LeekScriptError.from_api_error(e).model_dump() for e in v ]}
+        "errors": {
+            k: [ LeekScriptError.from_api_error(e).model_dump() for e in v ]
             for k,v in result['result'].items()
-        ]
+        }
     }
 
-    if any(value for error_dict in ez_response['errors'] for value in error_dict.values()):
+    if any(v for v in ez_response['errors'].values()):
         print("[bold red]Errors detected![/bold red]")
     else:
         print("[green]Saved, no problems found[/green]")
@@ -68,7 +69,7 @@ def save_ai(
     return save_ai_code(ai_name, leekscript_file.read())
 
 @app.command()
-def reset_to_default_ai(ai_name: Annotated[str, typer.Argument()]):
+def reset_ai(ai_name: Annotated[str, typer.Argument()]):
     leekscript = """
 /**
  * Welcome to Leek Wars!
@@ -107,6 +108,31 @@ def get_ai(ai_name: Annotated[str, typer.Argument()]):
     return ai['ai']['code']
 
 @app.command()
+def get_fight(fight_id: int):
+    settings = Settings()
+    lw = LeekWars(settings)
+
+    fight_obj = lw.fight.get(fight_id)
+    fight_logs = lw.fight.get_logs(fight_id)
+
+    errors = defaultdict(list)
+    for file,number in fight_logs.items():
+        if not isinstance(number, dict):
+            continue
+
+        for _,nested_errors in number.items():
+            for e in nested_errors:
+                errors[file].append(
+                    LeekScriptError.from_fight_logs(e).model_dump(include=['error_number', 'error'])
+                    if len(e) > 3 else {'debug_log': e[2]}
+            )
+
+    webbrowser.open_new_tab(f"https://leekwars.com/report/{fight_id}")
+    print(fight_obj)
+    print(dict(errors))
+    return fight_obj, dict(errors)
+
+@app.command()
 def start_fight(
         ai_name: Annotated[str, typer.Argument()],
         scenario_id: Annotated[int, typer.Argument()] = 0
@@ -132,6 +158,7 @@ def start_fight(
 
             total = fight_obj['queue']['total']
             position = fight_obj['queue']['position']
+
             progress.update(
                 task,
                 completed=total - position,
@@ -141,12 +168,9 @@ def start_fight(
 
             sleep(5)
 
-    fight_logs = lw.fight.get_logs(fight_id)
-    print(fight_obj)
-    print(fight_logs)
-    webbrowser.open_new_tab(f"https://leekwars.com/report/{fight_id}")
+    fight_json, fight_log = get_fight(fight_id)
 
-    return {"fight_results": fight_obj, "fight_logs": fight_logs}
+    return {"fight_results": fight_json, "fight_logs": fight_log}
 
 @app.command()
 def create_leekscript_xml_doc():
@@ -208,6 +232,7 @@ def create_leekscript_xml_doc():
 def run():
     settings = Settings()
     leekscript_docs = resources.files(data) / "leekscript.xml"
+    standard_function_docs = resources.files(data) / "standard_functions.xml"
     #lw = LeekWars(settings)
 
     llm_config = {
@@ -240,27 +265,32 @@ def run():
         },
         name="Engineer",
         system_message=(
-            "Engineer. You write LeekScript code to improve the LeekScript AI. When coding the LeekScript AI, avoid using Chips or other weapons besides from the base pistol as we don't have access to those yet. "
+            "Engineer. You write LeekScript code to improve the Leek AI. "
+            "When coding the Leek AI, ALWAYS avoid using Chips or other weapons besides from the base pistol as we don't have access to those yet. "
+            "Instead, focus on optimizing the Leek AI's pathfinding algorithm and tactics. "
             "Wrap the code in a code block that specifies the script type. The user can't modify your code. So do not suggest incomplete code which requires others to modify. "
             "Don't use a code block if it's not intended to be executed by the executor. "
             "Don't include multiple code blocks in one response. Do not ask others to copy and paste the result. Check the execution result returned by the executor. "
             "If the Excutor indicates there is an error, fix the error and output the code again. Suggest the full code instead of partial code or code changes. "
-            "Always incorporate the feedback of the Fight_Analyzer into your code. "
             "If the error can't be fixed or if the task is not solved even after the code is executed successfully, analyze the problem, revisit your assumption, collect additional info you need, and think of a different approach to try. "
-            "I have provided you the LeekScript documentation in the <LeekScriptDocs></LeekScriptDocs> tags. Refer to this when writing your code. \n\n"
-            f"{leekscript_docs.read_text()}"
+            f"{leekscript_docs.read_text()} \n\n"
+            f"{standard_function_docs.read_text()}" 
         ),
         code_execution_config=False
     )
 
-    '''
     critic = AssistantAgent(
         llm_config=llm_config,
-        name="Critic",
-        system_message="Critic. Double check plan, claims, code from other agents and provide feedback.",
+        name="LeekScript_Critic",
+        system_message=(
+            "LeekScript Critic. You critique the LeekScript code from the engineer, double checking that the used functionns and syntax adhere "
+            "to the documentation I've provided to you in the <StandardFunctionsDoc></StandardFunctionsDoc> tags and the <LeekScriptDocs></LeekScriptDocs> tags. "
+            "Your code changes should ALWAYS be given to the Engineer in Diff patch text format. \n\n"
+            f"{leekscript_docs.read_text()} \n\n"
+            f"{standard_function_docs.read_text()}"
+        ),
         code_execution_config=False
     )
-    '''
 
     fight_analyzer = AssistantAgent(
         llm_config={
@@ -298,9 +328,6 @@ def run():
         human_input_mode="NEVER"
     )
 
-    groupchat = GroupChat(agents=[user_proxy, engineer, executor, fight_analyzer], messages=[], max_round=100)
-    manager = GroupChatManager(groupchat=groupchat, llm_config=llm_config) 
-
     @user_proxy.register_for_execution()
     @executor.register_for_llm(description="This will run your LeekScript code. If there are errors, give them to the engineer to fix. In all other cases, give the results to the Fight_Analyzer.")
     def run_code(code: Annotated[str, "The LeekScript code to run."]):
@@ -308,18 +335,26 @@ def run():
             f.write(code)
 
         response = save_ai_code(ai_name="GPT", code=code)
-        if not any(value for error_dict in response['errors'] for value in error_dict.values()):
+        if not any(v for v in response['errors'].values()):
             return start_fight("GPT")
         else:
             return response
+
+    groupchat = GroupChat(agents=[user_proxy, engineer, critic, executor, fight_analyzer], messages=[], max_round=100)
+    manager = GroupChatManager(groupchat=groupchat, llm_config=llm_config) 
 
     user_proxy.initiate_chat(
         manager,
         message=(
             "Your task is to create the most powerful Leek AI in Leek Wars. Leek Wars is a programming game in which you have to create the most powerful leek and destroy your enemies. "
-            "The Leek AI needs to be programed in LeekScript. Interact with the engineer to produce the LeekScript code and the Executor to run it. The fight analyzer will provide feedback to the engineer to improve the Leek AI."
-            "I've provided the current version of our LeekScript AI code created from our previous iteractions in the <CurrentLeekAI></<CurrentLeekAI> tags.\n\n"
-            f"<CurrentLeekAI>{get_ai('GPT')}</CurrentLeekAI>"
+            "The Leek AI needs to be programed in LeekScript. "
+            "I've provided the current version of our Leek AI created from our previous iteractions in the <CurrentLeekAI></<CurrentLeekAI> tags. "
+            "Proceed in the following manner:\n"
+            "1. Make the Executor run the current Leek AI in the <CurrentLeekAI></<CurrentLeekAI> tags.\n"
+            "2. Make the Fight Analyzer analyze the results and report it to the Engineer.\n"
+            "3. Allow the Engineer and the LeekScript Critic to iterate over the code up to several times.\n"
+            "4. Make the the Executor execute the new LeekScript code.\n\n"
+            f"<CurrentLeekAI>\n{get_ai('GPT')}\n</CurrentLeekAI>"
         )
     )
 
